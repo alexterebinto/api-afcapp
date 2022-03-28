@@ -104,6 +104,8 @@ class PlayerController extends Controller
         $validator = Validator::make($request->all(), [
             'first_name' => 'required',
             'last_name' => 'required',
+            'dataNascimento' => 'required',
+            'matricula' => 'required',
             'team_id' => 'exists:App\Models\Team,id',
             'position_id' =>  'exists:App\Models\Positions,id',
         ]);
@@ -177,7 +179,7 @@ class PlayerController extends Controller
         $events = MatchEvent::with('match')->with('event')->where('player_id', '=', $mysqlRegister->id)
             ->get();
 
-        
+
         $position = Positions::find($mysqlRegister->position_id);
 
         $dataRetorno['id'] =  $mysqlRegister->id;
@@ -315,7 +317,7 @@ class PlayerController extends Controller
             }
         }
 
-        //Request is valid, update 
+        //Request is valid, update
         $update = $mysqlRegister->update([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
