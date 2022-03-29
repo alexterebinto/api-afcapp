@@ -66,7 +66,6 @@ class PlayerController extends Controller
             ->orWhere('last_name', 'like', '%' .  $search . '%')
             ->get();
 
-            return response()->json(['error' => '2'], 200);
         }else if ($team_id){
 
             $players = Player::with('team')
