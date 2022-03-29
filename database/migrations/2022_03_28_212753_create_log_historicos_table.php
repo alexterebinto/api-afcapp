@@ -15,7 +15,7 @@ class CreateLogHistoricosTable extends Migration
     {
         Schema::create('log_historicos', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('id')->nullable();
+            $table->bigInteger('idTipo')->nullable();
             $table->string('tipo', 255)->nullable();
             $table->string('descricao', 255)->nullable();
             $table->timestamps();
