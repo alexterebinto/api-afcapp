@@ -49,7 +49,11 @@ class PlayerController extends Controller
     {
         $dataForm = $request->all();
 
-        return response()->json([$dataForm], 200);
+        return response()->json([
+            'type' => 'success',
+            'message' => 'Atletas recuperados com sucesso',
+            'data' => $request,
+        ], 200);
 
         // validate incoming request
 
