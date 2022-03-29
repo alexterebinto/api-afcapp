@@ -49,6 +49,8 @@ class PlayerController extends Controller
     {
         $dataForm = $request->all();
 
+        return response()->json([$dataForm], 200);
+
         // validate incoming request
 
         if ($request->search && $request->team_id){
@@ -69,7 +71,7 @@ class PlayerController extends Controller
             return response()->json(['error' => '2'], 200);
         }else{
 
-            return response()->json(['error' => '3'], 200);
+
             $players = Player::with('team')
             ->where('team_id', '=', $request->team_id)
             ->get();
