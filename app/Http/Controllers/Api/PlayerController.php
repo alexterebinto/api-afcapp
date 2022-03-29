@@ -49,6 +49,10 @@ class PlayerController extends Controller
     {
         $dataForm = $request->all();
 
+        return response()->json( $request->getContent(), 200);
+
+
+
         // validate incoming request
        // $search = $dataForm['search'];
         $search =  $request->search;
