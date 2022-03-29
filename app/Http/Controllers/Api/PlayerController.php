@@ -48,20 +48,8 @@ class PlayerController extends Controller
     public function search(Request $request)
     {
         $dataForm = $request->all();
-
-        return response()->json( $request->getContent().$request->all(), 200);
-
-
-
-        // validate incoming request
-       // $search = $dataForm['search'];
         $search =  $request->search;
-
-       // $team_id =  $dataForm['team_id'];
         $team_id =   $request->team_id;
-        //$request->search;
-
-        return response()->json([$team_id], 200);
 
         if ($search && $team_id){
 
