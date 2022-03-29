@@ -49,7 +49,7 @@ class PlayerController extends Controller
     {
         $dataForm = $request->all();
 
-        return response()->json( $request->getContent(), 200);
+        return response()->json( $request->getContent().$request->all(), 200);
 
 
 
