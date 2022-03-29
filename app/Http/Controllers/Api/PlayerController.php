@@ -51,6 +51,8 @@ class PlayerController extends Controller
         $search =  $request->search;
         $team_id =   $request->team_id;
 
+        $players =  array();
+
         if ($search && $team_id){
 
             $players = Player::with('team')
