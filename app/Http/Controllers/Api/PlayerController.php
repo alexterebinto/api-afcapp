@@ -53,6 +53,8 @@ class PlayerController extends Controller
 
         if ($request->search && $request->team_id){
 
+            return response()->json(['error' => '1'], 200);
+
             $players = Player::with('team')
             ->where('team_id', '=', $request->team_id)
             ->where('first_name', 'like', '%' . $request->search . '%')
@@ -63,14 +65,18 @@ class PlayerController extends Controller
             ->where('first_name', 'like', '%' . $request->search . '%')
             ->orWhere('last_name', 'like', '%' . $request->search . '%')
             ->get();
+
+            return response()->json(['error' => '2'], 200);
         }else{
+
+            return response()->json(['error' => '3'], 200);
             $players = Player::with('team')
             ->where('team_id', '=', $request->team_id)
             ->get();
         }
 
         if ($players->isEmpty()) {
-            return response()->json(['error' => 'Jogador não encontrado!'], 200);
+            return response()->json(['error' => 'Jogador(es) não encontrado(os)!'], 200);
         }
 
         return response()->json([
