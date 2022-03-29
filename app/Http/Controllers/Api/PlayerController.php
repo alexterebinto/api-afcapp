@@ -49,35 +49,28 @@ class PlayerController extends Controller
     {
         $dataForm = $request->all();
 
-        return response()->json([
-            'type' => 'success',
-            'message' => 'Atletas recuperados com sucesso',
-            'data' => $request,
-        ], 200);
-
         // validate incoming request
+        $search = $dataForm['search'];
+        $team_id =  $dataForm['team_id'];
 
-        if ($request->search && $request->team_id){
-
-            return response()->json(['error' => '1'], 200);
+        if ($search &&  $team_id){
 
             $players = Player::with('team')
-            ->where('team_id', '=', $request->team_id)
-            ->where('first_name', 'like', '%' . $request->search . '%')
-            ->orWhere('last_name', 'like', '%' . $request->search . '%')
+            ->where('team_id', '=', $team_id)
+            ->where('first_name', 'like', '%' . $search . '%')
+            ->orWhere('last_name', 'like', '%' . $search . '%')
             ->get();
-        }else if ($request->search){
+        }else if ($search){
             $players = Player::with('team')
-            ->where('first_name', 'like', '%' . $request->search . '%')
-            ->orWhere('last_name', 'like', '%' . $request->search . '%')
+            ->where('first_name', 'like', '%' .  $search . '%')
+            ->orWhere('last_name', 'like', '%' .  $search . '%')
             ->get();
 
             return response()->json(['error' => '2'], 200);
-        }else{
-
+        }else if ($team_id){
 
             $players = Player::with('team')
-            ->where('team_id', '=', $request->team_id)
+            ->where('team_id', '=', $team_id)
             ->get();
         }
 
