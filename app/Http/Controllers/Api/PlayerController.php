@@ -69,7 +69,7 @@ class PlayerController extends Controller
             ->get();
         }
 
-        if (!$players) {
+        if ($players->isEmpty()) {
             return response()->json(['error' => 'Jogador não encontrado!'], 200);
         }
 
