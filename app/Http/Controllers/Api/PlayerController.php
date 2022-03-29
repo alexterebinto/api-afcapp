@@ -50,10 +50,16 @@ class PlayerController extends Controller
         $dataForm = $request->all();
 
         // validate incoming request
-        $search = $dataForm['search'];
-        $team_id =  $dataForm['team_id'];
+       // $search = $dataForm['search'];
+        $search =  $request->search;
 
-        if ($search &&  $team_id){
+       // $team_id =  $dataForm['team_id'];
+        $team_id =   $request->team_id;
+        //$request->search;
+
+        return response()->json([$team_id], 200);
+
+        if ($search && $team_id){
 
             $players = Player::with('team')
             ->where('team_id', '=', $team_id)
