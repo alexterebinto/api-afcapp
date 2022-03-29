@@ -74,7 +74,7 @@ class PlayerController extends Controller
             ->get();
         }
 
-        if ($players->isEmpty()) {
+        if (empty($players)) {
             return response()->json(['error' => 'Jogador(es) não encontrado(os)!'], 200);
         }
 
