@@ -13,7 +13,7 @@ class CreateBannersTable extends Migration
      */
     public function up()
     {
-        Schema::create('banners', function (Blueprint $table) {
+        Schema::create('nx510_banners', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
         });

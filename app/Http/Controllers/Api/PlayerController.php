@@ -9,7 +9,9 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use App\Models\Player;
 use App\Models\MatchEvent;
 use App\Models\Positions;
+use App\Models\SeasonTeam;
 use App\Models\Matchs;
+use App\Models\HistoricoAtleta;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Controllers\Controller;
@@ -49,21 +51,23 @@ class PlayerController extends Controller
 
         // validate incoming request
 
-        $validator = Validator::make($request->all(), [
-            'search' => 'required|string|min:3|max:15',
-        ]);
+        if ($request->search && $request->team_id){
 
-        if ($validator->fails()) {
-            return response()->json([
-                'type' => 'fail',
-                'data' => $validator->errors(),
-            ]);
-        }
-
-        $players = Player::with('team')
+            $players = Player::with('team')
+            ->where('team_id', '=', $request->team_id)
             ->where('first_name', 'like', '%' . $request->search . '%')
             ->orWhere('last_name', 'like', '%' . $request->search . '%')
             ->get();
+        }else if ($request->search){
+            $players = Player::with('team')
+            ->where('first_name', 'like', '%' . $request->search . '%')
+            ->orWhere('last_name', 'like', '%' . $request->search . '%')
+            ->get();
+        }else{
+            $players = Player::with('team')
+            ->where('team_id', '=', $request->team_id)
+            ->get();
+        }
 
         if (!$players) {
             return response()->json(['error' => 'Jogador não encontrado!'], 200);
@@ -151,6 +155,16 @@ class PlayerController extends Controller
         }
 
         $data = $this->model->create($dataForm);
+        $dataHistorico = new HistoricoAtleta();
+        $dataHistorico->team_id=$data->team_id;
+        $dataHistorico->player_id=$data->id;
+
+        $seassonTeam = SeasonTeam::where('team_id', '=', $data->team_id)->first();
+
+        if ($seassonTeam) {
+            $dataHistorico->session_id=$seassonTeam->season_id;
+            $dataHistorico->save();
+        }
 
         return response()->json([
             'type' => 'success',

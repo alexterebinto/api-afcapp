@@ -13,7 +13,7 @@ class CreateLogHistoricosTable extends Migration
      */
     public function up()
     {
-        Schema::create('log_historicos', function (Blueprint $table) {
+        Schema::create('nx510_log_historicos', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('idTipo')->nullable();
             $table->string('tipo', 255)->nullable();

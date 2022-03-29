@@ -13,7 +13,7 @@ class CreateHistoricoAtletasTable extends Migration
      */
     public function up()
     {
-        Schema::create('historico_atletas', function (Blueprint $table) {
+        Schema::create('nx510_historico_atletas', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('player_id')->unsigned();
             $table->bigInteger('team_id')->unsigned();
