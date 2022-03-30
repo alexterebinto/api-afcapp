@@ -60,7 +60,7 @@ class SeasonController extends Controller
                 'message' => 'Opearação realizada com sucesso',
                 'data' => $matchdays
             ], Response::HTTP_OK);
-        }        
+        }
     }
 
     /**
@@ -83,7 +83,7 @@ class SeasonController extends Controller
         $dataRetorno = array();
 
         foreach ($data  as $match) {
-            
+
             $matchdays = Matchs::where('m_id', '=', $match->m_name)->get();
 
             $match['matchdays'] = $matchdays;
@@ -109,8 +109,7 @@ class SeasonController extends Controller
      */
     public function matchdays($id)
     {
-
-        $mysqlRegister = Season::with('matchdays')->get();
+        $mysqlRegister = Season::with('matchdays')->where('id', '=', $id)->get();
 
         if (!$mysqlRegister) {
             return response()->json(['error' => 'Registro não encontrado!'], 200);
@@ -270,7 +269,7 @@ class SeasonController extends Controller
             return response()->json(['error' => $validator->messages()], 200);
         }
 
-        //Request is valid, update 
+        //Request is valid, update
         $update = $mysqlRegister->update([
             's_name' => $request->s_name,
             's_descr' => $request->s_descr,
