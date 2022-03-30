@@ -104,7 +104,7 @@ class TeamController extends Controller
 
                 $imageName = $name . "." . $extension;
 
-                $upload =  Storage::disk('public')->put('/teams/' . $imageName, base64_decode($image));
+                $upload =  Storage::disk('ftp')->put($_ENV['SFTP_DIRETORIO_TEAMS']. $imageName, base64_decode($image));
             } catch (\Exception $e) {
                 return response()->json(['error' => 'Falha ao fazer upload drive'], 500);
             }
@@ -205,15 +205,15 @@ class TeamController extends Controller
         $imageName =  $mysqlRegister->t_emblem;
 
         if (strpos($request->t_emblem, ';base64')) {
-           
+
             if ($imageName!="semescudo.jpg"){
                 try {
                     $delete =  Storage::disk('public')->delete('/teams/' . $mysqlRegister->t_emblem);
                 } catch (\Exception $e) {
                     return response()->json(['error' => 'Falha ao fazer delete drive'], 500);
                 }
-            }         
-          
+            }
+
             try {
                 $image_64 = $request->t_emblem; //your base64 encoded data
 
@@ -231,7 +231,7 @@ class TeamController extends Controller
 
                 $imageName = $name . "." . $extension;
 
-                $upload =  Storage::disk('public')->put('/teams/' . $imageName, base64_decode($image));
+                $upload =  Storage::disk('ftp')->put($_ENV['SFTP_DIRETORIO_TEAMS']  . $imageName, base64_decode($image));
             } catch (\Exception $e) {
                 return response()->json(['error' => 'Falha ao fazer upload drive'], 500);
             }
@@ -289,7 +289,7 @@ class TeamController extends Controller
         }
 
         try {
-            $delete =  Storage::disk('public')->delete('/teams/' . $mysqlRegister->t_emblem);
+            $delete =  Storage::disk('ftp')->delete($_ENV['SFTP_DIRETORIO_TEAMS'] . $mysqlRegister->t_emblem);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Falha ao fazer delete drive'], 500);
         }

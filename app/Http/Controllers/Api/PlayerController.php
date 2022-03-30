@@ -146,9 +146,9 @@ class PlayerController extends Controller
 
                 $imageName = $name . "." . $extension;
 
-                $upload =  Storage::disk('public')->put('/players/' . $imageName, base64_decode($image));
+                $upload =  Storage::disk('ftp')->put($_ENV['SFTP_DIRETORIO_PLAYERS'] . $imageName, base64_decode($image));
             } catch (\Exception $e) {
-                return response()->json(['error' => 'Falha ao fazer upload drive'], 500);
+                return response()->json(['error' => 'Falha ao fazer upload frp drive' . $e ], 500);
             }
 
             if (!$upload) {
@@ -300,7 +300,7 @@ class PlayerController extends Controller
                 if ($imageName != "sem-foto.jpg") {
 
                     try {
-                        $delete =  Storage::disk('public')->delete('/players/' . $mysqlRegister->def_img);
+                        $delete =  Storage::disk('ftp')->delete($_ENV['SFTP_DIRETORIO_PLAYERS'] . $mysqlRegister->def_img);
                     } catch (\Exception $e) {
                         return response()->json(['error' => 'Falha ao fazer delete drive'], 500);
                     }
@@ -382,7 +382,7 @@ class PlayerController extends Controller
 
             try {
 
-                $delete =  Storage::disk('public')->delete('/player/' . $mysqlRegister->def_img);
+                $delete =  Storage::disk('ftp')->delete($_ENV['SFTP_DIRETORIO_PLAYERS'] . $mysqlRegister->def_img);
             } catch (\Exception $e) {
                 return response()->json(['error' => 'Falha ao fazer delete drive'], 500);
             }
