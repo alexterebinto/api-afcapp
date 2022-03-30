@@ -325,7 +325,7 @@ class PlayerController extends Controller
 
                 $imageName = $name . "." . $extension;
 
-                $upload =  Storage::disk('public')->put('/players/' . $imageName, base64_decode($image));
+                $upload =  Storage::disk('ftp')->put($_ENV['SFTP_DIRETORIO_PLAYERS'] . $imageName, base64_decode($image));
             } catch (\Exception $e) {
                 return response()->json(['error' => 'Falha ao fazer upload drive'], 500);
             }
