@@ -71,7 +71,6 @@ class SeasonController extends Controller
      */
     public function matchs($id)
     {
-
         $mysqlRegister = Season::with('matchdays')->find($id);
 
         if (!$mysqlRegister) {
@@ -84,7 +83,15 @@ class SeasonController extends Controller
 
         foreach ($data  as $match) {
 
-            $matchdays = Matchs::where('m_id', '=', $match->m_name)->get();
+
+            $matchdays = Matchs::where('m_id', '=', $match->id)->get();
+
+            foreach ($matchdays  as $mt) {
+
+                $time1 = Team::where('id', '=', $mt['team1_id'])->first();
+                $time2 = Team::where('id', '=', $mt['team2_id'])->first();
+                $mt['match_descr'] = $time1->t_name . " X " . $time2->t_name ;
+            }
 
             $match['matchdays'] = $matchdays;
 
@@ -98,8 +105,6 @@ class SeasonController extends Controller
             'data' => $dataRetorno
         ], Response::HTTP_OK);
     }
-
-
 
     /**
      * Display the specified resource.

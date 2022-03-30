@@ -92,7 +92,7 @@ class PlayerController extends Controller
      */
     public function index()
     {
-        $data = Player::with('team')->paginate();
+        $data = Player::with('team')->orderBy('first_name')->paginate();
         return response()->json($data, 200);
     }
 
