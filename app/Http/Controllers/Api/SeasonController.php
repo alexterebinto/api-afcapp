@@ -54,6 +54,13 @@ class SeasonController extends Controller
 
             $matchdays = Matchs::where('m_id', '=', $matchday->id)->get();
 
+            foreach ($matchdays  as $mt) {
+
+                $time1 = Team::where('id', '=', $mt['team1_id'])->first();
+                $time2 = Team::where('id', '=', $mt['team2_id'])->first();
+                $mt['match_descr'] = $time1->t_name . " X " . $time2->t_name ;
+            }
+
             //updated, return success response
             return response()->json([
                 'success' => true,
