@@ -16,8 +16,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DashboardController extends Controller
 {
-    
-    
+
+
     /**
      * Display a listing of the resource.
      *
@@ -25,8 +25,22 @@ class DashboardController extends Controller
      */
     public function index()
     {
+
+        $data['atletas'] = 841;
+        $data['usuarios'] = 9;
+        $data['campeonatos'] = 13;
+        $data['times'] = 37;
+
+        //updated, return success response
+            return response()->json([
+                'success' => true,
+                'message' => 'Dashboard realizado com sucesso',
+                'data' => $data
+            ], Response::HTTP_OK);
+
+
     }
-   
+
     public function show($seasonId)
     {
         $seasson = Season::find($seasonId);
@@ -35,8 +49,8 @@ class DashboardController extends Controller
         if (!$seasson) {
             return response()->json(['error' => 'Temporada não encontrada!'], 200);
         }
-        
-        $dataRetorno['standing'] = StandingController::getStanding($seasonId);       
+
+        $dataRetorno['standing'] = StandingController::getStanding($seasonId);
 
         //updated, return success response
         return response()->json([
