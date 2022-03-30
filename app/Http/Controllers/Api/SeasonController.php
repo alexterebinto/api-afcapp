@@ -58,7 +58,7 @@ class SeasonController extends Controller
 
                 $time1 = Team::where('id', '=', $mt['team1_id'])->first();
                 $time2 = Team::where('id', '=', $mt['team2_id'])->first();
-                $mt['match_descr'] = $time1->t_name . " X " . $time2->t_name ;
+                $mt['match_descr'] = $time1->t_name . $time1->score_1 . " X " . $time2->score_2 . $time2->t_name ;
             }
 
             //updated, return success response
