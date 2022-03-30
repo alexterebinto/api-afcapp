@@ -53,7 +53,7 @@ class TeamController extends Controller
      */
     public function index()
     {
-        $data = $this->model->paginate(30);
+        $data = $this->model->orderBy('t_name')->get();
 
         return response()->json($data, 200);
     }
