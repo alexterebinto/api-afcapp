@@ -113,7 +113,6 @@ class PlayerController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'dataNascimento' => 'required',
-            'matricula' => 'required',
             'team_id' => 'exists:App\Models\Team,id',
             'position_id' =>  'exists:App\Models\Positions,id',
         ]);
@@ -125,7 +124,7 @@ class PlayerController extends Controller
             ]);
         }
 
-        $dataForm['def_img'] = "sem-foto.jpg";
+        $dataForm['def_img'] = "sem-foto-homem.jpg";
 
         if (strpos($request->def_img, ';base64')) {
 
