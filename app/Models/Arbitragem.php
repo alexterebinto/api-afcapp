@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Arbitragem extends Model
 {
     use HasFactory;
+
+    protected $table = 'nx510_arbitragem';
 }
