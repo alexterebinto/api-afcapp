@@ -59,17 +59,20 @@ class PlayerController extends Controller
             ->where('team_id', '=', $team_id)
             ->where('first_name', 'like', '%' . $search . '%')
             ->orWhere('last_name', 'like', '%' . $search . '%')
+            ->orderBy('first_name', 'ASC')
             ->get();
         }else if ($search){
             $players = Player::with('team')
             ->where('first_name', 'like', '%' .  $search . '%')
             ->orWhere('last_name', 'like', '%' .  $search . '%')
+            ->orderBy('first_name', 'ASC')
             ->get();
 
         }else if ($team_id){
 
             $players = Player::with('team')
             ->where('team_id', '=', $team_id)
+            ->orderBy('first_name', 'ASC')
             ->get();
         }
 
