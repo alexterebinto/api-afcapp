@@ -166,7 +166,7 @@ class SeasonController extends Controller
      */
     public function index()
     {
-        $data = $this->model->paginate();
+        $data = $this->model->orderBy('id', 'DESC')->paginate();
 
         return response()->json($data, 200);
     }
