@@ -36,7 +36,7 @@ class TournamentControllerMobile extends Controller
         $this->request = $request;
     }
 
-      
+
 
     /**
      * Display a listing of the resource.
@@ -45,7 +45,7 @@ class TournamentControllerMobile extends Controller
      */
     public function index()
     {
-        $mysqlRegister = Tournament::where('published', '=',  'S')->paginate();      
+        $mysqlRegister = Tournament::where('published', '=',  'S')->orderBy('id', 'DESC')->paginate();
 
             //updated, return success response
             return response()->json([
