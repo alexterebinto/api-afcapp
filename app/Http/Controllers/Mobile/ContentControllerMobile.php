@@ -41,7 +41,7 @@ class ContentControllerMobile extends Controller
     public function index()
     {
 
-        $url = 'https://www.clubecuritibano.com.br/wp-json/wp/v2/posts?per_page=50&page=1&_embed';
+        $url = 'https://www.clubecuritibano.com.br/wp-json/wp/v2/posts?per_page=100&page=1&_embed';
 
         $json = json_decode(file_get_contents($url), true);
 
