@@ -208,7 +208,7 @@ class TeamController extends Controller
 
             if ($imageName!="semescudo.jpg"){
                 try {
-                    $delete =  Storage::disk('public')->delete('/teams/' . $mysqlRegister->t_emblem);
+                    $delete =  Storage::disk('ftp')->delete($_ENV['SFTP_DIRETORIO_TEAMS'].$mysqlRegister->t_emblem);
                 } catch (\Exception $e) {
                     return response()->json(['error' => 'Falha ao fazer delete drive'], 500);
                 }
