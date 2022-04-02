@@ -43,9 +43,6 @@ class TeamController extends Controller
         return response()->json($data);
     }
 
-
-
-
     /**
      * Display a listing of the resource.
      *
