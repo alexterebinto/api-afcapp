@@ -53,11 +53,14 @@ class EventsControllerMobile extends Controller
         //selecionar maximo seasson id do torneio
         $mysqlRegister = Season::where('t_id', '=', $idTorneio)->orderBy('id', 'DESC')->first();
 
-        $id = $mysqlRegister->id;
+
 
         if (!$mysqlRegister) {
             return response()->json(['error' => 'Temporada não encontrada!'], 200);
         }
+
+
+        $id = $mysqlRegister->id;
 
         $matchs = DB::table('nx510_bl_matchday')
             ->join('nx510_bl_match', 'nx510_bl_matchday.id', '=', 'nx510_bl_match.m_id')
@@ -102,7 +105,9 @@ class EventsControllerMobile extends Controller
             }
         }
 
-        array_multisort($sort_arr['goals'], SORT_DESC, $table_view);
+        if ($i > 1) {
+            array_multisort($sort_arr['goals'], SORT_DESC, $table_view);
+        }
 
         $list =   $table_view;
 
