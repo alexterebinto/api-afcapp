@@ -39,7 +39,7 @@ class SeasonControllerMobile extends Controller
         $this->request = $request;
     }
 
-       /**
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -47,7 +47,8 @@ class SeasonControllerMobile extends Controller
      */
     public function show($id)
     {
-        $mysqlRegister = Season::find($id);
+        //selecionar maximo seasson id do torneio
+        $mysqlRegister = Season::where('t_id', '=', $id)->orderBy('id', 'DESC')->first();
 
         if (!$mysqlRegister) {
             return response()->json(['error' => 'Temporada não encontrada!'], 200);
@@ -59,14 +60,14 @@ class SeasonControllerMobile extends Controller
             ->orderByRaw('nx510_bl_teams.t_name ASC')
             ->get();
 
-            foreach ($teams  as $t) {
+        foreach ($teams  as $t) {
 
-                $t->id = $t->team_id;    
-            }    
+            $t->id = $t->team_id;
+        }
 
-       
 
-        $mysqlRegister['teamsSeason'] = $teams ;  
+
+        $mysqlRegister['teamsSeason'] = $teams;
 
 
 
@@ -78,8 +79,4 @@ class SeasonControllerMobile extends Controller
             'data' => $mysqlRegister
         ], Response::HTTP_OK);
     }
-
-    
-    
-
 }
