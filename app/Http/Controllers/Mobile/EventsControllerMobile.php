@@ -49,8 +49,18 @@ class EventsControllerMobile extends Controller
      */
     public function goals($idTorneio)
     {
+
+
+
         //selecionar maximo seasson id do torneio
         $mysqlRegister = Season::where('t_id', '=', $idTorneio)->orderBy('id', 'DESC')->first();
+
+        //updated, return success response
+        return response()->json([
+            $mysqlRegister
+        ], Response::HTTP_OK);
+
+
 
         $id = $mysqlRegister->id;
 
@@ -182,7 +192,13 @@ class EventsControllerMobile extends Controller
             }
         }
 
-        array_multisort($sort_arr['goals'], SORT_DESC, $table_view);
+
+
+        if ($i > 1) {
+            array_multisort($sort_arr['goals'], SORT_DESC, $table_view);
+        }
+
+
 
         $list =   $table_view;
 
