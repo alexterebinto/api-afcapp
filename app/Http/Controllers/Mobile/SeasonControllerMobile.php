@@ -45,14 +45,18 @@ class SeasonControllerMobile extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($idTorneio)
     {
         //selecionar maximo seasson id do torneio
-        $mysqlRegister = Season::where('t_id', '=', $id)->orderBy('id', 'DESC')->first();
+        $mysqlRegister = Season::where('t_id', '=', $idTorneio)->orderBy('id', 'DESC')->first();
+
+
 
         if (!$mysqlRegister) {
             return response()->json(['error' => 'Temporada não encontrada!'], 200);
         }
+
+        $id = $mysqlRegister->id;
 
         $teams = DB::table('nx510_bl_teams')
             ->join('nx510_bl_season_teams', 'nx510_bl_teams.id', '=', 'nx510_bl_season_teams.team_id')
@@ -65,12 +69,7 @@ class SeasonControllerMobile extends Controller
             $t->id = $t->team_id;
         }
 
-
-
         $mysqlRegister['teamsSeason'] = $teams;
-
-
-
 
         //updated, return success response
         return response()->json([
