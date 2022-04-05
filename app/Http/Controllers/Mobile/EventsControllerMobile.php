@@ -47,9 +47,12 @@ class EventsControllerMobile extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function goals($id)
+    public function goals($idTorneio)
     {
-        $mysqlRegister = Season::find($id);
+        //selecionar maximo seasson id do torneio
+        $mysqlRegister = Season::where('t_id', '=', $idTorneio)->orderBy('id', 'DESC')->first();
+
+        $id = $mysqlRegister->id;
 
         if (!$mysqlRegister) {
             return response()->json(['error' => 'Temporada não encontrada!'], 200);
@@ -78,13 +81,13 @@ class EventsControllerMobile extends Controller
         foreach ($filters as $key  => $val) {
 
             $url = "https://ccfutebolsociety.com/api/v1/image?filename=https://ccfutebolsociety.com/storage/players/";
-            
+
 
             $player = Player::with('team')->find($key);
             $table_view[$i]['id'] = $player->id;
             $table_view[$i]['first_name'] = $player->first_name;
             $table_view[$i]['last_name'] = $player->last_name;
-            $table_view[$i]['def_img'] = $url.$player->def_img;
+            $table_view[$i]['def_img'] = $url . $player->def_img;
             $table_view[$i]['team_id'] = $player->team_id;
             $table_view[$i]['t_name'] = $player->team->t_name;
             $table_view[$i]['goals'] = $val;
@@ -124,9 +127,13 @@ class EventsControllerMobile extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function all($id)
+    public function all($idTorneio)
     {
-        $mysqlRegister = Season::find($id);
+        //selecionar maximo seasson id do torneio
+        $mysqlRegister = Season::where('t_id', '=', $idTorneio)->orderBy('id', 'DESC')->first();
+
+        $id = $mysqlRegister->id;
+
 
         if (!$mysqlRegister) {
             return response()->json(['error' => 'Temporada não encontrada!'], 200);
@@ -278,6 +285,4 @@ class EventsControllerMobile extends Controller
             'data' => $classificacao
         ], Response::HTTP_OK);
     }
-
-
 }
