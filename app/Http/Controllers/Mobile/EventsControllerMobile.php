@@ -50,17 +50,8 @@ class EventsControllerMobile extends Controller
     public function goals($idTorneio)
     {
 
-
-
         //selecionar maximo seasson id do torneio
         $mysqlRegister = Season::where('t_id', '=', $idTorneio)->orderBy('id', 'DESC')->first();
-
-        //updated, return success response
-        return response()->json([
-            $mysqlRegister
-        ], Response::HTTP_OK);
-
-
 
         $id = $mysqlRegister->id;
 
