@@ -42,8 +42,14 @@ class TeamControllerMobile extends Controller
         $this->request = $request;
     }
 
-    public function goals($seasonId, $idTime)
+    public function goals($idTorneio, $idTime)
     {
+
+        //selecionar maximo seasson id do torneio
+        $mysqlRegister = Season::where('t_id', '=', $idTorneio)->orderBy('id', 'DESC')->first();
+
+        $seasonId = $mysqlRegister->id;
+
         $mysqlRegister = Season::find($seasonId);
 
         if (!$mysqlRegister) {
@@ -73,13 +79,13 @@ class TeamControllerMobile extends Controller
         foreach ($filters as $key  => $val) {
 
             $url = "https://ccfutebolsociety.com/api/v1/image?filename=https://ccfutebolsociety.com/storage/players/";
-            
+
 
             $player = Player::with('team')->find($key);
             $table_view[$i]['id'] = $player->id;
             $table_view[$i]['first_name'] = $player->first_name;
             $table_view[$i]['last_name'] = $player->last_name;
-            $table_view[$i]['def_img'] = $url.$player->def_img;
+            $table_view[$i]['def_img'] = $url . $player->def_img;
             $table_view[$i]['team_id'] = $player->team_id;
             $table_view[$i]['t_name'] = $player->team->t_name;
             $table_view[$i]['goals'] = $val;
@@ -100,14 +106,13 @@ class TeamControllerMobile extends Controller
         $cont = 1;
         $classificacao = array();
 
-        foreach ($list as $obj) {           
+        foreach ($list as $obj) {
 
-            if ($idTime==$obj["team_id"]){
+            if ($idTime == $obj["team_id"]) {
                 $obj["position"] = $cont;
                 $cont++;
                 array_push($classificacao, $obj);
             }
-
         }
 
 
@@ -148,9 +153,14 @@ class TeamControllerMobile extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function sequence($seasson, $id)
+    public function sequence($idTorneio, $id)
     {
         $team = Team::find($id);
+
+        //selecionar maximo seasson id do torneio
+        $mysqlRegister = Season::where('t_id', '=', $idTorneio)->orderBy('id', 'DESC')->first();
+
+        $seasson = $mysqlRegister->id;
 
         $arraySequencia = array();
 
@@ -207,9 +217,15 @@ class TeamControllerMobile extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function lastmatchs($seasson, $id)
+    public function lastmatchs($idTorneio, $id)
     {
         $team = Team::find($id);
+
+        //selecionar maximo seasson id do torneio
+        $mysqlRegister = Season::where('t_id', '=', $idTorneio)->orderBy('id', 'DESC')->first();
+
+        $seasson = $mysqlRegister->id;
+
 
         $matchs = DB::table('nx510_bl_matchday')
             ->join('nx510_bl_match', 'nx510_bl_matchday.id', '=', 'nx510_bl_match.m_id')
@@ -237,8 +253,14 @@ class TeamControllerMobile extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function nextmatchs($seasson, $id)
+    public function nextmatchs($idTorneio, $id)
     {
+
+        //selecionar maximo seasson id do torneio
+        $mysqlRegister = Season::where('t_id', '=', $idTorneio)->orderBy('id', 'DESC')->first();
+
+        $seasson = $mysqlRegister->id;
+
         $team = Team::find($id);
 
         $nextMatchs = DB::table('nx510_bl_matchday')
@@ -268,8 +290,15 @@ class TeamControllerMobile extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function stats($seasson, $id)
+    public function stats($idTorneio, $id)
     {
+
+        //selecionar maximo seasson id do torneio
+        $mysqlRegister = Season::where('t_id', '=', $idTorneio)->orderBy('id', 'DESC')->first();
+
+        $seasson = $mysqlRegister->id;
+
+
         $team = Team::find($id);
 
         $golsMarcados = 0;
@@ -463,8 +492,14 @@ class TeamControllerMobile extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function seasonteam($seasson, $id)
+    public function seasonteam($idTorneio, $id)
     {
+
+        //selecionar maximo seasson id do torneio
+        $mysqlRegister = Season::where('t_id', '=', $idTorneio)->orderBy('id', 'DESC')->first();
+
+        $seasson = $mysqlRegister->id;
+
         $data = Team::with('players')->where('id', '=', $id)->paginate();
 
         foreach ($data   as $teams) {
