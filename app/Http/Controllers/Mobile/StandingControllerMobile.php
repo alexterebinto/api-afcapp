@@ -16,26 +16,27 @@ use Symfony\Component\HttpFoundation\Response;
 
 class StandingControllerMobile extends Controller
 {
-   
-   
-    public function show($seasonId)
+
+
+    public function show($id)
     {
-        $seasson = Season::find($seasonId);
+        // $seasson = Season::find($seasonId);
+
+        //selecionar maximo seasson id do torneio
+        $seasson = Season::where('t_id', '=', $id)->orderBy('id', 'DESC')->first();
 
 
         if (!$seasson) {
             return response()->json(['error' => 'Temporada não encontrada!'], 200);
         }
-        
-        $dataRetorno['standing'] = StandingController::getStanding($seasonId);       
+
+        $dataRetorno['standing'] = StandingController::getStanding($seasson->id);
 
         //updated, return success response
         return response()->json([
-        'success' => true,
-        'message' => 'Dashboard realizado com sucesso',
-        'data' => $dataRetorno
-    ], Response::HTTP_OK);
+            'success' => true,
+            'message' => 'Dashboard realizado com sucesso',
+            'data' => $dataRetorno
+        ], Response::HTTP_OK);
     }
-
-    
 }
