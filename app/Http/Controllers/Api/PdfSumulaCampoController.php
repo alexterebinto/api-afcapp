@@ -46,7 +46,7 @@ class PdfSumulaCampoController extends Controller
      */
     public function sumulaFutebolCampo($id)
     {
-        $match = Matchs::where('m_id', '=', $id)->first();
+        $match = Matchs::where('id', '=', $id)->first();
 
         $matchday = Matchday::where('id', '=', $match->m_id)->first();
 
@@ -109,6 +109,21 @@ class PdfSumulaCampoController extends Controller
         $team_1['logo'] = PdfSumulaCampoController::getLogoClube($team_1);
         $team_2['logo'] = PdfSumulaCampoController::getLogoClube($team_2);
 
+
+        foreach ($players1  as $p) {
+            $p['isSuspenso'] = 0;
+            $p['suspensoAmarelo'] = 0;
+            $p['suspensoVermelho'] = 0;
+            $p['suspensoPunicao'] = 0;
+        }
+
+        foreach ($players2  as $p) {
+            $p['isSuspenso'] = 0;
+            $p['suspensoAmarelo'] = 0;
+            $p['suspensoVermelho'] = 0;
+            $p['suspensoPunicao'] = 0;
+        }
+
         $sumula['team_1'] = $team_1;
         $sumula['team_2'] = $team_2;
         $sumula['players2'] = $players2;
@@ -137,13 +152,11 @@ class PdfSumulaCampoController extends Controller
         $sumula['vagasInscricoes'] = $arrayVagasInscricoes1;
         $sumula['vagasInscricoes2'] = $arrayVagasInscricoes2;
 
-
         $matchs = DB::table('nx510_bl_matchday')
             ->join('nx510_bl_match', 'nx510_bl_matchday.id', '=', 'nx510_bl_match.m_id')
             ->where('nx510_bl_matchday.s_id', '=', $matchday->s_id)
             ->where('nx510_bl_match.m_played', '=', '1')
             ->orderByRaw('nx510_bl_matchday.id ASC')->get();
-
 
         $totalJogos1 = 0;
         $totalJogos2 = 0;
@@ -178,7 +191,6 @@ class PdfSumulaCampoController extends Controller
             array("Attachment" => false)
         );
     }
-
 
     public static function getiIconeSuspensao($icone)
     {
