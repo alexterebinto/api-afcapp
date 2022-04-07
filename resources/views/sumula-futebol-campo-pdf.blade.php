@@ -93,7 +93,7 @@
         <tr>
             <td>&Aacute;rbitro:</td>
             <td colspan="6" style="background-color:#FFFAFA;">
-                <div style="width:40%; float:left;"><b>&nbsp; NOME DO JUIZ</b></div>
+                <div style="width:40%; float:left;"><b>&nbsp; </b></div>
                 <div style="width:60%; float:left;">Ass.: </div>
             </td>
         </tr>
@@ -101,7 +101,7 @@
         <tr>
             <td>Assistente: </td>
             <td colspan="6" style="background-color:#F8F8FF;">
-                <div style="width:40%; float:left;"><b>&nbsp; ASSISTENTE 1</b></div>
+                <div style="width:40%; float:left;"><b>&nbsp; </b></div>
                 <div style="width:60%; float:left;">Ass.: </div>
             </td>
         </tr>
@@ -109,7 +109,7 @@
         <tr>
             <td>Assistente: </td>
             <td colspan="6" style="background-color:#FFFAFA;">
-                <div style="width:40%; float:left;"><b>&nbsp; ASSISTENTE 2</b></div>
+                <div style="width:40%; float:left;"><b>&nbsp; </b></div>
                 <div style="width:60%; float:left;">Ass.: </div>
             </td>
         </tr>
@@ -119,7 +119,7 @@
         <tr>
             <td>Mes&aacute;rio: </td>
             <td colspan="6" style="background-color:#FFFAFA;">
-                <div style="width:40%; float:left;"><b>&nbsp;MESARIO</b></div>
+                <div style="width:40%; float:left;"><b>&nbsp;</b></div>
                 <div style="width:60%; float:left;">Ass.: </div>
             </td>
         </tr>
@@ -530,7 +530,7 @@
                         </td>
 
 
-                        @if ($jogadores1->last_name == 'Arcanjo')
+                        @if ($jogadores1->isSuspenso == '1')
                             <td class="borderCima" width="170" style="text-decoration: line-through;">
                             @else
                             <td class="borderCima" width="170">
@@ -545,9 +545,19 @@
                             *
                         @endif
 
-                        @if ($jogadores1->last_name == 'Arcanjo')
+                        @if ($jogadores1->suspensoAmarelo == '1')
                             <img src="{{ $sumula['amarelo'] }}" width="10" height="10" style="margin-left:10px;" />
                         @endif
+
+
+                        @if ($jogadores1->suspensoVermelho == '1')
+                            <img src="{{ $sumula['vermelho'] }}" width="10" height="10" style="margin-left:10px;" />
+                        @endif
+
+                        @if ($jogadores1->suspensoPunicao == '1')
+                            <img src="{{ $sumula['suspensao'] }}" width="10" height="10" style="margin-left:10px;" />
+                        @endif
+
 
 
                         </td>
@@ -678,6 +688,21 @@
 
                             @if ($jogadores2->federado == 'S')
                                 *
+                            @endif
+
+                            @if ($jogadores2->suspensoAmarelo == '1')
+                                <img src="{{ $sumula['amarelo'] }}" width="10" height="10"
+                                    style="margin-left:10px;" />
+                            @endif
+
+                            @if ($jogadores2->suspensoVermelho == '1')
+                                <img src="{{ $sumula['vermelho'] }}" width="10" height="10"
+                                    style="margin-left:10px;" />
+                            @endif
+
+                            @if ($jogadores2->suspensoPunicao == '1')
+                                <img src="{{ $sumula['suspensao'] }}" width="10" height="10"
+                                    style="margin-left:10px;" />
                             @endif
 
 
