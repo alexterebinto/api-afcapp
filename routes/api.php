@@ -22,7 +22,7 @@ use App\Http\Controllers\Mobile\EventsControllerMobile;
 use App\Http\Controllers\Mobile\ContentControllerMobile;
 use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\ArbitragemController;
-
+use App\Http\Controllers\Api\PdfSumulaCampoController;
 
 Route::prefix('v1')->group(function () {
 
@@ -30,6 +30,7 @@ Route::prefix('v1')->group(function () {
     Route::post('register', [UserApiController::class, 'store']);
     Route::resource('dashboard', DashboardController::class);
     Route::get('image', [ImageController::class, 'image']);
+    Route::get('sumulaFutebolCampo/{idMatch}', [PdfSumulaCampoController::class, 'sumulaFutebolCampo']);
 
     //mobile
     Route::prefix('mobile')->group(function () {
@@ -53,8 +54,6 @@ Route::prefix('v1')->group(function () {
         Route::get('events/{id}/goals', [EventsControllerMobile::class, 'goals']);
         Route::get('events/{id}/all', [EventsControllerMobile::class, 'all']);
         Route::get('matchs/played/{idMatch}', [MatchsControllerMobile::class, 'detail']);
-
-
     });
 
 
@@ -79,7 +78,5 @@ Route::prefix('v1')->group(function () {
         Route::resource('matchevents', MatchEventController::class);
         Route::get('arbitros', [ArbitragemController::class, 'arbitros']);
         Route::get('mesarios', [ArbitragemController::class, 'mesarios']);
-
     });
-
 });
