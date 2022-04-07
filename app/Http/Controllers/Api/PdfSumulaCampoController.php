@@ -11,6 +11,7 @@ use App\Models\Tournament;
 use Illuminate\Http\Request;
 use App\Models\PdfSumulaCampo;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -46,6 +47,7 @@ class PdfSumulaCampoController extends Controller
     public function sumulaFutebolCampo($id)
     {
         $match = Matchs::where('m_id', '=', $id)->first();
+
         $matchday = Matchday::where('id', '=', $match->m_id)->first();
 
         $season = Season::where('id', '=', $matchday->s_id)->first();
@@ -57,15 +59,52 @@ class PdfSumulaCampoController extends Controller
         $sumula['season'] = $season;
         $sumula['tournament'] = $tournament;
 
+        //icones
+        $sumula['amarelo'] = PdfSumulaCampoController::getiIconeSuspensao($_ENV['SFTP_PATH_ICONES_AMARELO']);
+        $sumula['vermelho'] = PdfSumulaCampoController::getiIconeSuspensao($_ENV['SFTP_PATH_ICONES_VERMELHO']);
+        $sumula['suspensao'] = PdfSumulaCampoController::getiIconeSuspensao($_ENV['SFTP_PATH_ICONES_SUSPENSAO']);
+
         $team_1 = Team::find($match->team1_id);
         $team_1->t_initials = substr($team_1->t_name, 0, 3);
 
-
-        $players1 = Player::where('team_id', '=', $match->team1_id)->where('position_id', '<', 13)->orderBy('first_name', 'ASC')->get();
+        $players1 = Player::where('team_id', '=', $match->team1_id)->where('position_id', '<', 12)->orderBy('first_name', 'ASC')->get();
+        $treinador1 = Player::where('team_id', '=', $match->team1_id)->whereIn('position_id', [12, 16])->orderBy('first_name', 'ASC')->first();
+        $auxiliar11 = Player::where('team_id', '=', $match->team1_id)->whereIn('position_id', [13])->orderBy('first_name', 'ASC')->first();
+        $auxiliar12 = Player::where('team_id', '=', $match->team1_id)->whereIn('position_id', [14])->orderBy('first_name', 'ASC')->first();
 
         $team_2 = Team::find($match->team2_id);
         $team_2->t_initials = substr($team_2->t_name, 0, 3);
-        $players2 = Player::where('team_id', '=', $match->team2_id)->orderBy('first_name', 'ASC')->get();
+        $players2 = Player::where('team_id', '=', $match->team2_id)->where('position_id', '<', 12)->orderBy('first_name', 'ASC')->get();
+        $treinador2 = Player::where('team_id', '=', $match->team2_id)->whereIn('position_id', [12, 16])->orderBy('first_name', 'ASC')->first();
+        $auxiliar21 = Player::where('team_id', '=', $match->team2_id)->whereIn('position_id', [13])->orderBy('first_name', 'ASC')->first();
+        $auxiliar22 = Player::where('team_id', '=', $match->team2_id)->whereIn('position_id', [14])->orderBy('first_name', 'ASC')->first();
+
+        if ($treinador1) {
+            $team_1['treinador'] = $treinador1;
+        }
+
+        if ($auxiliar11) {
+            $team_1['$auxiliar11'] = $auxiliar11;
+        }
+
+        if ($auxiliar12) {
+            $team_1['$auxiliar12'] = $auxiliar12;
+        }
+
+
+        if ($treinador2) {
+            $team_2['treinador'] = $treinador2;
+        }
+
+        if ($auxiliar21) {
+            $team_2['auxiliar21'] = $auxiliar21;
+        }
+
+        if ($auxiliar22) {
+            $team_2['auxiliar22'] = $auxiliar22;
+        }
+
+        // return response()->json($team_1, 500);
 
         $team_1['logo'] = PdfSumulaCampoController::getLogoClube($team_1);
         $team_2['logo'] = PdfSumulaCampoController::getLogoClube($team_2);
@@ -98,6 +137,39 @@ class PdfSumulaCampoController extends Controller
         $sumula['vagasInscricoes'] = $arrayVagasInscricoes1;
         $sumula['vagasInscricoes2'] = $arrayVagasInscricoes2;
 
+
+        $matchs = DB::table('nx510_bl_matchday')
+            ->join('nx510_bl_match', 'nx510_bl_matchday.id', '=', 'nx510_bl_match.m_id')
+            ->where('nx510_bl_matchday.s_id', '=', $matchday->s_id)
+            ->where('nx510_bl_match.m_played', '=', '1')
+            ->orderByRaw('nx510_bl_matchday.id ASC')->get();
+
+
+        $totalJogos1 = 0;
+        $totalJogos2 = 0;
+        $sumula['totalPartidasTime1'] = 0;
+        $sumula['totalPartidasTime2'] = 0;
+
+        foreach ($matchs  as $m) {
+
+            if ($m->team1_id == $match->team1_id) {
+                $totalJogos1++;
+            } else if ($m->team2_id == $match->team1_id) {
+                $totalJogos1++;
+            }
+
+            if ($m->team1_id == $match->team2_id) {
+                $totalJogos2++;
+            } else if ($m->team2_id == $match->team2_id) {
+                $totalJogos2++;
+            }
+        }
+
+        $sumula['totalPartidasTime1'] = $totalJogos1;
+        $sumula['totalPartidasTime2'] = $totalJogos2;
+
+        //return response()->json($sumula, 500);
+
         $sumula['logo'] = PdfSumulaCampoController::getLogo($tournament);
         $pdf = PDF::loadView('sumula-futebol-campo-pdf', compact('sumula'));
         $pdf->setOptions(['dpi' => 100, 'defaultFont' => 'sans-serif']);
@@ -106,6 +178,26 @@ class PdfSumulaCampoController extends Controller
             array("Attachment" => false)
         );
     }
+
+
+    public static function getiIconeSuspensao($icone)
+    {
+        $opciones_ssl = array(
+            "ssl" => array(
+                "verify_peer" => false,
+                "verify_peer_name" => false,
+            ),
+        );
+
+        $img_path = $icone;
+        $extencion = pathinfo($img_path, PATHINFO_EXTENSION);
+        $data = file_get_contents($img_path, false, stream_context_create($opciones_ssl));
+        $img_base_64 = base64_encode($data);
+        $path_img = 'data:image/' . $extencion . ';base64,' . $img_base_64;
+
+        return $path_img;
+    }
+
 
     public static function getLogoClube($team)
     {
