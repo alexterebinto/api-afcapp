@@ -42,7 +42,7 @@
     <table class="tabelaPrincipal" cellpadding="0" cellspacing="0">
         <tr>
             <td width="153">
-                <div align="center"><img src="{{ $sumula['logo'] }}" width="75" height="90" /></div>
+                <div align="center"><img src="{{ $sumula['logo'] }}" width="180" height="70" /></div>
             </td>
             <td colspan="6" class="borderCimaFundo">
                 <p align="center" style="font-size: 10px; text-transform: uppercase;">

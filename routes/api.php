@@ -23,6 +23,7 @@ use App\Http\Controllers\Mobile\ContentControllerMobile;
 use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\ArbitragemController;
 use App\Http\Controllers\Api\PdfSumulaCampoController;
+use App\Http\Controllers\Api\PreviewSumulaCampoController;
 
 Route::prefix('v1')->group(function () {
 
@@ -31,6 +32,9 @@ Route::prefix('v1')->group(function () {
     Route::resource('dashboard', DashboardController::class);
     Route::get('image', [ImageController::class, 'image']);
     Route::get('sumulaFutebolCampo/{idMatch}', [PdfSumulaCampoController::class, 'sumulaFutebolCampo']);
+    Route::get('preview/{idMatch}', [PreviewSumulaCampoController::class, 'preview']);
+
+
 
     //mobile
     Route::prefix('mobile')->group(function () {
