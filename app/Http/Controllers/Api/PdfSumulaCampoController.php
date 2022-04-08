@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use App\Models\Team;
 use App\Models\Matchs;
 use App\Models\Player;
@@ -53,6 +54,10 @@ class PdfSumulaCampoController extends Controller
 
         $season = Season::where('id', '=', $matchday->s_id)->first();
         $tournament = Tournament::find($season->t_id);
+
+        $createdAt = Carbon::parse($match->m_date);
+        $match->m_date = $createdAt->format('d/m/Y');
+        //return response()->json($createdAt->format('d/m/Y'), 500);
 
 
         $sumula['match'] = $match;
