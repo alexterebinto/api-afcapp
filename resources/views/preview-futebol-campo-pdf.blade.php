@@ -42,7 +42,7 @@
     <table class="tabelaPrincipal" cellpadding="0" cellspacing="0" style="width: 740px;">
         <tr>
             <td width="153">
-                <div align="center"><img src="{{ $sumula['logo'] }}" width="180" height="70" /></div>
+                <div align="center"><img src="{{ $sumula['logo'] }}" width="190" height="70" /></div>
             </td>
             <td colspan="6" class="borderCimaFundo">
                 <p align="center" style="font-size: 10px; text-transform: uppercase;">
@@ -144,7 +144,7 @@
     </table>
 
     @if (isset($sumula['ultimoJogo']))
-        <table cellpadding="0" cellspacing="0" style="width: 740px;">
+        <table cellpadding="0" cellspacing="0" style="width: 740px;" style="">
             <tr>
                 <td colspan="10"
                     style="text-transform: :uppercase; height: 13px !important; padding: 10px; text-align: center; font-size: 18px; color:white;">
@@ -166,18 +166,47 @@
 
             <tr>
                 <td colspan="10"
-                    style="float:left; text-transform: :uppercase; height: 60px !important; padding: 10px; text-align: center; font-size: 16px; color:#295987;">
+                    style="border:none !important; float:left; text-transform: :uppercase; height: 60px !important; padding: 10px; text-align: center; font-size: 16px; color:#295987;">
 
-                    <table width="100%" style="float:left; text-transform: :uppercase; height: 30px;">
+                    <table width="100%"
+                        style="float:left; text-transform: :uppercase; height: 30px; border:1px white solid; background-color:lightgray; ">
                         <tr>
-                            <td width="50" align="center;"><img
-                                    style="text-align: :center; width:60px; border:1px rgb(217, 220, 220) solid; border-radius:5em "
+                            <td width="50" align="center;" style="border:1px white lightgray; " width="50"><img
+                                    style="margin-left:30px; width:40px; border:1px lightgray solid; border-radius:5em "
                                     src="{{ $sumula['team_1']->logo }}" /></td>
-                            <td width="30" width="50" align="center;">1</td>
-                            <td width="50" align="center;" width="10" style="font-size: 20px;">X</td>
-                            <td width="50" align="center;" width="20">2</td>
-                            <td width="50" align="center;" width="50"><img
-                                    style="margin-left:30px; width:40px; border:1px rgb(217, 220, 220) solid; border-radius:5em "
+                            <td width="30" width="50" align="center;"
+                                style="font-size: 22px; border:1px lightgray solid;">
+
+
+                                @if ($sumula['ultimoJogo']->team1_id == $sumula['team_1']->id)
+                                    {{ $sumula['ultimoJogo']->score1 }}
+                                @endif
+
+                                @if ($sumula['ultimoJogo']->team2_id == $sumula['team_1']->id)
+                                    {{ $sumula['ultimoJogo']->score2 }}
+                                @endif
+
+
+                            </td>
+                            <td width="50" align="center;" width="10"
+                                style="font-size: 20px; border:1px lightgray solid;">X
+                            </td>
+                            <td width="50" align="center;" style="font-size: 22px; border:1px lightgray solid"
+                                width="20">
+
+                                @if ($sumula['ultimoJogo']->team1_id == $sumula['team_2']->id)
+                                    {{ $sumula['ultimoJogo']->score1 }}
+                                @endif
+
+                                @if ($sumula['ultimoJogo']->team2_id == $sumula['team_2']->id)
+                                    {{ $sumula['ultimoJogo']->score2 }}
+                                @endif
+
+
+
+                            </td>
+                            <td width="50" align="center;" style="border:1px lightgray solid; " width="50"><img
+                                    style="margin-left:30px; width:40px; border:1px lightgray solid; border-radius:5em "
                                     src="{{ $sumula['team_2']->logo }}" /></td>
                         </tr>
                     </table>
@@ -188,333 +217,94 @@
         </table>
     @endif
 
+    <div style="width:740px; float:left;">
+        <div style="width:350px; float:left;">
+            <table cellpadding="0" cellspacing="0" style="width: 330px;">
+                <tr>
+                    <td colspan="3" style="text-align: center; color:white; font-size:15px; background-color:#295987;">
+                        Súmula
+                        da Partida</td>
+                </tr>
+                @forelse($sumula['eventosUltimoJogo'] as $evento)
+                    <tr>
+                        <td class='borderCima' style='text-align:center;' width='25'><img style="width:50px;"
+                                src="{{ $evento->player_photo }}" </td>
+
+                        <td class="borderCima" style="text-align:center;" width="70">
+                            {{ $evento->player_name }}
+
+                        </td>
+                        <td class="borderCima" style="text-align:center;" width="30">
+                            {{ $evento->minutes }}'
+
+                            @if ($evento->e_id == '1')
+                                <img src="{{ $sumula['amarelo'] }}" width="20" height="20"
+                                    style="margin-left:10px;" />
+                            @endif
+
+                            @if ($evento->e_id == '2')
+                                <img src="{{ $sumula['vermelho'] }}" width="20" height="20"
+                                    style="margin-left:10px;" />
+                            @endif
+
+                            @if ($evento->e_id == '3')
+                                <img src="{{ $sumula['gol'] }}" width="20" height="20" style="margin-left:10px;" />
+                            @endif
 
 
-    <table cellpadding="0" cellspacing="0" style="width: 740px;">
-        <tr>
-            <td colspan="5" width="100"
-                style="text-transform: :uppercase; height: 13px !important; padding: 5px; text-align: center; font-size: 16px; background-color:#4c92d3; color:white;">
-                {{ $sumula['totalGols1'] }} {{ $sumula['team_1']->t_initials }}
-            </td>
+                        </td>
 
+                    </tr>
+                @empty
+                @endforelse
 
-            <td colspan="2" width="50"
-                style="text-transform: :uppercase; height: 13px !important; padding: 5px; text-align: center; font-size: 16px; background-color:#4c92d3; color:white;">
-                {{ $sumula['totalGols2'] }} {{ $sumula['team_2']->t_initials }}
-            </td>
+            </table>
 
-            <td colspan="3" width="100"
-                style=" text-transform: :uppercase;height: 13px !important; padding: 5px; text-align: center; font-size: 16px; background-color:#4c92d3; color:white;">
-                Média : {{ $sumula['mediaGols'] }}
-            </td>
+        </div>
 
+        <div style="width:350px; float:right;">
+            <table cellpadding="0" cellspacing="0" style="width: 340px;">
 
-        </tr>
-    </table>
+                <tr>
+                    <td colspan="3" style="text-align: center; color:white; font-size:15px; background-color:#295987;">
+                        Jogadores Suspensos</td>
+                </tr>
 
-
-
-
-
-    <table cellpadding="0" cellspacing="0" style="width: 740px;">
-        <tr>
-            <td style="height: 80px; text-align: center;  width: 80px; border-right: 1px whitesmoke solid;">
-                <img style="width:60px;" src="{{ $sumula['team_1']->logo }}" />
-            </td>
-
-            <td colspan="3" style="background-color:  whitesmoke;">
-                <div style="width:90%; padding-left: 10px;  text-transform: uppercase; width:100%; font-size: 24px;">
-                    {{ $sumula['team_1']->t_name }}</div>
-                <div style="width:100%; padding-left: 10px; padding-top:5px;">Total Inscritos :
-                    {{ $sumula['team_1']->totalInscritos }}</div>
-            </td>
-        </tr>
-        <tr>
-            <td class="borderCima" style="text-align:center;" width="25"><b>N&ordm;</b></td>
-            <td class="borderCima" width="170"><b>Nome dos Jogadores</b></td>
-            <td width="90" style="text-align: center;"><b>R.G.</b>
-            </td>
-            <td><b>Assinatura</b></td>
-        </tr>
-        @forelse($sumula['players1'] as $jogadores1)
-            <tr>
-                <td class="borderCima" style="text-align:center;" width="25">
-                </td>
-
-
-                @if ($jogadores1->isSuspenso == '1')
-                    <td class="borderCima" width="170" style="text-decoration: line-through;">
-                    @else
-                    <td class="borderCima" width="170">
-                @endif
-
-
-
-                {{ $jogadores1->first_name }}
-                {{ $jogadores1->last_name }}
-
-                @if ($jogadores1->federado == 'S')
-                    *
-                @endif
-
-                @if ($jogadores1->suspensoAmarelo == '1')
-                    <img src="{{ $sumula['amarelo'] }}" width="10" height="10" style="margin-left:10px;" />
-                @endif
-
-
-                @if ($jogadores1->suspensoVermelho == '1')
-                    <img src="{{ $sumula['vermelho'] }}" width="10" height="10" style="margin-left:10px;" />
-                @endif
-
-                @if ($jogadores1->suspensoPunicao == '1')
-                    <img src="{{ $sumula['suspensao'] }}" width="10" height="10" style="margin-left:10px;" />
-                @endif
+                <tr>
+                    <td colspan="3" style="text-align: center;  font-size:15px; ">
+                        -</td>
+                </tr>
 
 
 
-                </td>
-                <td width="90" style="text-align: center;"> {{ $jogadores1->rg }}
-                </td>
-                <td></td>
-            </tr>
-        @empty
 
-            <tr>
-                <td class="borderCima" style="text-align:center;" width="25">
-                </td>
-                <td class="borderCima" width="170">a</td>
-                <td width="90">
-                </td>
-                <td></td>
-            </tr>
-        @endforelse
+            </table>
 
-        @foreach ($sumula['vagasInscricoes'] ?? '' as $data)
-            <tr>
-                <td class="borderCima" style="text-align:center;" width="25">
-                </td>
-                <td class="borderCima" width="170"></td>
-                <td width="90">
-                </td>
-                <td></td>
-            </tr>
-        @endforeach
+            <table cellpadding="0" cellspacing="0" style="width: 340px;">
 
-        <tr>
-            <td colspan="4"
-                style="background-color:  whitesmoke; text-transform: uppercase; text-align:center; font-weight:bold;">
-                COMISSÃO TÉCNICA</td>
-        </tr>
+                <tr>
+                    <td colspan="3" style="text-align: center; color:white; font-size:15px; background-color:#295987;">
+                        Jogadores Pendurados</td>
+                </tr>
 
-        <tr>
-            <td class="borderCima" style="text-align:left;" colspan="2" width="190">
-                <b> Técnico : </b>
-                @if (isset($sumula['team_1']->treinador))
-                    {{ $sumula['team_1']->treinador->first_name }}
-                    {{ $sumula['team_1']->treinador->last_name }}
-                @endif
-            </td>
-            <td width="90">
-                @if (isset($sumula['team_1']->treinador))
-                    {{ $sumula['team_1']->rg }}
-                @endif
-            </td>
-            <td></td>
-        </tr>
-
-        <tr>
-            <td class="borderCima" style="text-align:left;" colspan="2" width="190">
-                <b> Aux. Técnico : </b>
-                @if (isset($sumula['team_1']->auxiliar11))
-                    {{ $sumula['team_1']->auxiliar11->first_name }}
-                    {{ $sumula['team_1']->auxiliar11->last_name }}
-                @endif
-            </td>
-            <td width="90">
-                @if (isset($sumula['team_1']->auxiliar11))
-                    {{ $sumula['team_1']->auxiliar11->rg }}
-                @endif
-            </td>
-            </td>
-            <td></td>
-        </tr>
-
-        <tr>
-            <td class="borderCima" style="text-align:left;" colspan="2" width="190">
-                <b> Aux. Técnico : </b>
-                @if (isset($sumula['team_1']->auxiliar12))
-                    {{ $sumula['team_1']->auxiliar12->first_name }}
-                    {{ $sumula['team_1']->auxiliar12->last_name }}
-                @endif
-            </td>
-            <td width="90">
-                @if (isset($sumula['team_1']->auxiliar12))
-                    {{ $sumula['team_1']->auxiliar12->rg }}
-                @endif
-            </td>
-            </td>
-            <td></td>
-        </tr>
-
-        <tr>
-            <td class="borderCima" style="text-align:justify; padding: 5px;" colspan="4" width="190">
-                CA (cart&atilde;o amarelo); CV (cart&atilde;o vermelho); 2&ordm; CA (segundo cart&atilde;o
-                amarelo); CVD (cart&atilde;o vermelho direto). Situa&ccedil;&otilde;es poss&iacute;veis (colocar
-                &quot;x&quot; nos espa&ccedil;os correspondentes): a) somente cart&atilde;o amarelo =
-                &quot;x&rsquo; em CA; b) expuls&atilde;o por 2&ordm; CA = &quot;x&quot; em CA e &quot;x&quot; em
-                2&ordm; CA;c) expuls&atilde;o direta = &quot;x&quot; em CVD; e d) cart&atilde;o amarelo seguido
-                de expuls&atilde;o direta = &quot;x&quot; em CA e &quot;x&quot; em CVD.
-            </td>
-        </tr>
-    </table>
-
-    <!-- TIME 2 RELACAO GERAL -->
-    <table cellpadding="0" cellspacing="0" style="width: 740px;">
-        <tr>
-            <td style="height: 80px; text-align: center;  width: 80px; border-right: 1px whitesmoke solid;">
-                <img style="width:60px;" src="{{ $sumula['team_2']->logo }}" />
-            </td>
-
-            <td colspan="3" style="background-color:  whitesmoke;">
-                <div style="width:90%; padding-left: 10px;  text-transform: uppercase; width:100%; font-size: 24px;">
-                    {{ $sumula['team_2']->t_name }}</div>
-                <div style="width:100%; padding-left: 10px; padding-top:5px;">Total Inscritos :
-                    {{ $sumula['team_2']->totalInscritos }}</div>
-            </td>
-        </tr>
-        <tr>
-            <td class="borderCima" style="text-align:center;" width="25"><b>N&ordm;</b></td>
-            <td class="borderCima" width="170"><b>Nome dos Jogadores</b></td>
-            <td width="90" style="text-align: center;"><b>R.G.</b>
-            </td>
-            <td><b>Assinatura</b></td>
-        </tr>
-        @forelse($sumula['players2'] as $jogadores2)
-            <tr>
-                <td class="borderCima" style="text-align:center;" width="25">
-                </td>
-
-                @if ($jogadores2->isSuspenso == '1')
-                    <td class="borderCima" width="170" style="text-decoration: line-through;">
-                    @else
-                    <td class="borderCima" width="170">
-                @endif
-
-                {{ $jogadores2->first_name }}
-                {{ $jogadores2->last_name }}
-
-                @if ($jogadores2->federado == 'S')
-                    *
-                @endif
-
-                @if ($jogadores2->suspensoAmarelo == '1')
-                    <img src="{{ $sumula['amarelo'] }}" width="10" height="10" style="margin-left:10px;" />
-                @endif
-
-                @if ($jogadores2->suspensoVermelho == '1')
-                    <img src="{{ $sumula['vermelho'] }}" width="10" height="10" style="margin-left:10px;" />
-                @endif
-
-                @if ($jogadores2->suspensoPunicao == '1')
-                    <img src="{{ $sumula['suspensao'] }}" width="10" height="10" style="margin-left:10px;" />
-                @endif
+                <tr>
+                    <td colspan="3" style="text-align: center;  font-size:15px; ">
+                        -</td>
+                </tr>
 
 
-                </td>
-                <td width="90"> {{ $jogadores2->rg }}
-                </td>
-                <td></td>
-            </tr>
-        @empty
 
-            <tr>
-                <td class="borderCima" style="text-align:center;" width="25">
-                </td>
-                <td class="borderCima" width="170"></td>
-                <td width="90">
-                </td>
-                <td></td>
-            </tr>
-        @endforelse
+            </table>
 
-        @foreach ($sumula['vagasInscricoes2'] ?? '' as $data)
-            <tr>
-                <td class="borderCima" style="text-align:center;" width="25">
-                </td>
-                <td class="borderCima" width="170"></td>
-                <td width="90">
-                </td>
-                <td></td>
-            </tr>
-        @endforeach
+        </div>
 
-        <tr>
-            <td colspan="4"
-                style="background-color:  whitesmoke; text-transform: uppercase; text-align:center; font-weight:bold;">
-                COMISSÃO TÉCNICA</td>
-        </tr>
 
-        <tr>
-            <td class="borderCima" style="text-align:left;" colspan="2" width="190">
-                <b> Técnico : </b>
-                @if (isset($sumula['team_2']->treinador))
-                    {{ $sumula['team_2']->treinador->first_name }}
-                    {{ $sumula['team_2']->treinador->last_name }}
-                @endif
 
-            </td>
-            <td width="90">
-                @if (isset($sumula['team_2']->treinador))
-                    {{ $sumula['team_2']->treinador->rg }}
-                @endif
-            </td>
-            <td></td>
-        </tr>
+    </div>
 
-        <tr>
-            <td class="borderCima" style="text-align:left;" colspan="2" width="190">
-                <b> Aux. Técnico : </b>
-                @if (isset($sumula['team_2']->auxiliar21))
-                    {{ $sumula['team_2']->auxiliar21->first_name }}
-                    {{ $sumula['team_2']->auxiliar21->last_name }}
-                @endif
-            </td>
-            <td width="90">
-                @if (isset($sumula['team_2']->auxiliar21))
-                    {{ $sumula['team_2']->auxiliar21->rg }}
-                @endif
-            </td>
-            <td></td>
-        </tr>
 
-        <tr>
-            <td class="borderCima" style="text-align:left;" colspan="2" width="190">
-                <b> Aux. Técnico : </b>
-                @if (isset($sumula['team_2']->auxiliar22))
-                    {{ $sumula['team_2']->auxiliar22->first_name }}
-                    {{ $sumula['team_2']->auxiliar22->last_name }}
-                @endif
-            </td>
-            <td width="90">
-                @if (isset($sumula['team_2']->auxiliar22))
-                    {{ $sumula['team_2']->auxiliar22->rg }}
-                @endif
 
-            </td>
-            <td></td>
-        </tr>
 
-        <tr>
-            <td class="borderCima" style="text-align:justify; padding: 5px;" colspan="4" width="190">
-                CA (cart&atilde;o amarelo); CV (cart&atilde;o vermelho); 2&ordm; CA (segundo cart&atilde;o
-                amarelo); CVD (cart&atilde;o vermelho direto). Situa&ccedil;&otilde;es poss&iacute;veis (colocar
-                &quot;x&quot; nos espa&ccedil;os correspondentes): a) somente cart&atilde;o amarelo =
-                &quot;x&rsquo; em CA; b) expuls&atilde;o por 2&ordm; CA = &quot;x&quot; em CA e &quot;x&quot; em
-                2&ordm; CA;c) expuls&atilde;o direta = &quot;x&quot; em CVD; e d) cart&atilde;o amarelo seguido
-                de expuls&atilde;o direta = &quot;x&quot; em CA e &quot;x&quot; em CVD.
-            </td>
-        </tr>
-    </table>
 
 
 </body>

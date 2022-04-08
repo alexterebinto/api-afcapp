@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Exception;
 use Carbon\Carbon;
 use App\Models\Team;
 use App\Models\Matchs;
@@ -59,18 +60,16 @@ class PreviewSumulaCampoController extends Controller
         $createdAt = Carbon::parse($match->m_date);
         $match->m_date = $createdAt->format('d/m/Y');
 
-
-
         $sumula['match'] = $match;
         $sumula['matchday'] = $matchday;
         $sumula['season'] = $season;
         $sumula['tournament'] = $tournament;
 
         //icones
-        $sumula['amarelo'] = PdfSumulaCampoController::getiIconeSuspensao($_ENV['SFTP_PATH_ICONES_AMARELO']);
-        $sumula['vermelho'] = PdfSumulaCampoController::getiIconeSuspensao($_ENV['SFTP_PATH_ICONES_VERMELHO']);
-        $sumula['suspensao'] = PdfSumulaCampoController::getiIconeSuspensao($_ENV['SFTP_PATH_ICONES_SUSPENSAO']);
-        $sumula['gol'] = PdfSumulaCampoController::getiIconeSuspensao($_ENV['SFTP_PATH_ICONES_GOL']);
+        $sumula['amarelo'] = PreviewSumulaCampoController::getiIconeSuspensao($_ENV['SFTP_PATH_ICONES_AMARELO']);
+        $sumula['vermelho'] = PreviewSumulaCampoController::getiIconeSuspensao($_ENV['SFTP_PATH_ICONES_VERMELHO']);
+        $sumula['suspensao'] = PreviewSumulaCampoController::getiIconeSuspensao($_ENV['SFTP_PATH_ICONES_SUSPENSAO']);
+        $sumula['gol'] = PreviewSumulaCampoController::getiIconeSuspensao($_ENV['SFTP_PATH_ICONES_GOL']);
 
         $team_1 = Team::find($match->team1_id);
         $team_1->t_initials = substr($team_1->t_name, 0, 3);
@@ -114,8 +113,8 @@ class PreviewSumulaCampoController extends Controller
 
         // return response()->json($team_1, 500);
 
-        $team_1['logo'] = PdfSumulaCampoController::getLogoClube($team_1);
-        $team_2['logo'] = PdfSumulaCampoController::getLogoClube($team_2);
+        $team_1['logo'] = PreviewSumulaCampoController::getLogoClube($team_1);
+        $team_2['logo'] = PreviewSumulaCampoController::getLogoClube($team_2);
 
 
         foreach ($players1  as $p) {
@@ -196,6 +195,8 @@ class PreviewSumulaCampoController extends Controller
             ->where('nx510_bl_match.m_played', '=', '1')
             ->orderByRaw('nx510_bl_matchday.id DESC')->first();
 
+        $createdAt = Carbon::parse($matchs_last->m_date);
+        $matchs_last->m_date = $createdAt->format('d/m/Y');
         $sumula['ultimoJogo'] = $matchs_last;
 
         if (isset($matchs_last)) {
@@ -208,7 +209,7 @@ class PreviewSumulaCampoController extends Controller
 
                 $player = Player::find($e->player_id);
                 $e['player_name'] = $player->first_name . " " . $player->last_name;
-                $e['player_photo'] = $player->def_img;
+                $e['player_photo'] = PreviewSumulaCampoController::getImagemAtleta($player->def_img);
             }
 
             $sumula['eventosUltimoJogo'] = $event;
@@ -307,6 +308,41 @@ class PreviewSumulaCampoController extends Controller
         return $path_img;
     }
 
+
+    public static function getImagemAtleta($foto)
+    {
+
+        $opciones_ssl = array(
+            "ssl" => array(
+                "verify_peer" => false,
+                "verify_peer_name" => false,
+            ),
+        );
+
+        $img_path = $_ENV['SFTP_PATH_PHOTO_ATLETA'] . $foto;
+        $extencion = pathinfo($img_path, PATHINFO_EXTENSION);
+
+        try {
+            $data = file_get_contents($img_path, false, stream_context_create($opciones_ssl));
+            $img_base_64 = base64_encode($data);
+            $path_img = 'data:image/' . $extencion . ';base64,' . $img_base_64;
+            $img_base_64 = base64_encode($data);
+            $path_img = 'data:image/' . $extencion . ';base64,' . $img_base_64;
+            return $path_img;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+
+        $img_path = $_ENV['SFTP_PATH_PHOTO_ATLETA'] . "sem-foto-homem.jpg";
+        $extencion = pathinfo($img_path, PATHINFO_EXTENSION);
+        $data = file_get_contents($img_path, false, stream_context_create($opciones_ssl));
+        $img_base_64 = base64_encode($data);
+        $path_img = 'data:image/' . $extencion . ';base64,' . $img_base_64;
+        $img_base_64 = base64_encode($data);
+        $path_img = 'data:image/' . $extencion . ';base64,' . $img_base_64;
+
+        return $path_img;
+    }
 
     public static function getLogoClube($team)
     {
