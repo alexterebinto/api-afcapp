@@ -57,7 +57,7 @@ class PdfSumulaCampoController extends Controller
 
         $createdAt = Carbon::parse($match->m_date);
         $match->m_date = $createdAt->format('d/m/Y');
-        //return response()->json($createdAt->format('d/m/Y'), 500);
+
 
 
         $sumula['match'] = $match;
@@ -118,17 +118,18 @@ class PdfSumulaCampoController extends Controller
 
         foreach ($players1  as $p) {
 
-            $suspensao = Suspensao::where('player_id', '=', $p->player_id)->first();
+            $suspensao = Suspensao::where('player_id', '=', $p->id)->first();
 
 
             if (isset($suspensao)) {
-                return response()->json($suspensao, 200);
+                $p['suspensoPunicao'] = 1;
+                $p['isSuspenso'] = 1;
+            } else {
+                $p['isSuspenso'] = 0;
+                $p['suspensoAmarelo'] = 0;
+                $p['suspensoVermelho'] = 0;
+                $p['suspensoPunicao'] = 0;
             }
-
-            $p['isSuspenso'] = 0;
-            $p['suspensoAmarelo'] = 0;
-            $p['suspensoVermelho'] = 0;
-            $p['suspensoPunicao'] = 0;
         }
 
 
@@ -137,14 +138,16 @@ class PdfSumulaCampoController extends Controller
 
             $suspensao = Suspensao::where('player_id', '=', $p->id)->where('season_id', '=', $season->id)->where('m_id', '=', $matchday->m_name)->first();
 
-            $p['isSuspenso'] = 0;
-            $p['suspensoAmarelo'] = 0;
-            $p['suspensoVermelho'] = 0;
-            $p['suspensoPunicao'] = 0;
 
             if (isset($suspensao)) {
                 $p['suspensoPunicao'] = 1;
                 $p['isSuspenso'] = 1;
+            } else {
+
+                $p['isSuspenso'] = 0;
+                $p['suspensoAmarelo'] = 0;
+                $p['suspensoVermelho'] = 0;
+                $p['suspensoPunicao'] = 0;
             }
         }
 
@@ -213,7 +216,7 @@ class PdfSumulaCampoController extends Controller
         $pdf = PDF::loadView('sumula-futebol-campo-pdf', compact('sumula'));
         $pdf->setOptions(['dpi' => 100, 'defaultFont' => 'sans-serif']);
         return $pdf->setPaper('a4')->stream(
-            'sumula' . $data . 'pdf',
+            'sumula-' . $data,
             array("Attachment" => false)
         );
     }

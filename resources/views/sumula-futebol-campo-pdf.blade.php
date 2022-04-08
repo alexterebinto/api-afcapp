@@ -53,7 +53,8 @@
                         {{ $sumula['match']->m_date }} {{ $sumula['match']->m_time }}
                         1 Rodada</strong></b>
                 </p>
-                <p align="center" style="font-size: 10px; font-weight: bold;">SUMULA E RELAT&Oacute;RIO DA PARTIDA </b>
+                <p align="center" style="font-size: 10px; font-weight: bold;">P{{ $sumula['match']->id }} - SUMULA E
+                    RELAT&Oacute;RIO DA PARTIDA </b>
                     </strong></p>
             </td>
         </tr>
