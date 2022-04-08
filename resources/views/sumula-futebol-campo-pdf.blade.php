@@ -682,28 +682,31 @@
                     <tr>
                         <td class="borderCima" style="text-align:center;" width="25">
                         </td>
-                        <td class="borderCima" width="170">
-                            {{ $jogadores2->first_name }}
-                            {{ $jogadores2->last_name }}
 
-                            @if ($jogadores2->federado == 'S')
-                                *
-                            @endif
+                        @if ($jogadores2->isSuspenso == '1')
+                            <td class="borderCima" width="170" style="text-decoration: line-through;">
+                            @else
+                            <td class="borderCima" width="170">
+                        @endif
 
-                            @if ($jogadores2->suspensoAmarelo == '1')
-                                <img src="{{ $sumula['amarelo'] }}" width="10" height="10"
-                                    style="margin-left:10px;" />
-                            @endif
+                        {{ $jogadores2->first_name }}
+                        {{ $jogadores2->last_name }}
 
-                            @if ($jogadores2->suspensoVermelho == '1')
-                                <img src="{{ $sumula['vermelho'] }}" width="10" height="10"
-                                    style="margin-left:10px;" />
-                            @endif
+                        @if ($jogadores2->federado == 'S')
+                            *
+                        @endif
 
-                            @if ($jogadores2->suspensoPunicao == '1')
-                                <img src="{{ $sumula['suspensao'] }}" width="10" height="10"
-                                    style="margin-left:10px;" />
-                            @endif
+                        @if ($jogadores2->suspensoAmarelo == '1')
+                            <img src="{{ $sumula['amarelo'] }}" width="10" height="10" style="margin-left:10px;" />
+                        @endif
+
+                        @if ($jogadores2->suspensoVermelho == '1')
+                            <img src="{{ $sumula['vermelho'] }}" width="10" height="10" style="margin-left:10px;" />
+                        @endif
+
+                        @if ($jogadores2->suspensoPunicao == '1')
+                            <img src="{{ $sumula['suspensao'] }}" width="10" height="10" style="margin-left:10px;" />
+                        @endif
 
 
                         </td>
@@ -750,7 +753,6 @@
 
                     </td>
                     <td width="90">
-                        <b> Aux. Técnico : </b>
                         @if (isset($sumula['team_2']->treinador))
                             {{ $sumula['team_2']->treinador->rg }}
                         @endif

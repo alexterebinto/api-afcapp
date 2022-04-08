@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Suspensao extends Model
 {
     use HasFactory;
+
+
+    protected $table = 'nx_510_bl_suspensao';
+
+    protected $fillable = [
+        'player_id',
+    ];
 }

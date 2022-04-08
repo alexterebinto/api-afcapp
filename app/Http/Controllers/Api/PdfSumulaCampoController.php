@@ -7,6 +7,7 @@ use App\Models\Matchs;
 use App\Models\Player;
 use App\Models\Season;
 use App\Models\Matchday;
+use App\Models\Suspensao;
 use App\Models\Tournament;
 use Illuminate\Http\Request;
 use App\Models\PdfSumulaCampo;
@@ -111,18 +112,37 @@ class PdfSumulaCampoController extends Controller
 
 
         foreach ($players1  as $p) {
+
+            $suspensao = Suspensao::where('player_id', '=', $p->player_id)->first();
+
+
+            if (isset($suspensao)) {
+                return response()->json($suspensao, 200);
+            }
+
             $p['isSuspenso'] = 0;
             $p['suspensoAmarelo'] = 0;
             $p['suspensoVermelho'] = 0;
             $p['suspensoPunicao'] = 0;
         }
 
+
+
         foreach ($players2  as $p) {
+
+            $suspensao = Suspensao::where('player_id', '=', $p->id)->where('season_id', '=', $season->id)->where('m_id', '=', $matchday->m_name)->first();
+
             $p['isSuspenso'] = 0;
             $p['suspensoAmarelo'] = 0;
             $p['suspensoVermelho'] = 0;
             $p['suspensoPunicao'] = 0;
+
+            if (isset($suspensao)) {
+                $p['suspensoPunicao'] = 1;
+                $p['isSuspenso'] = 1;
+            }
         }
+
 
         $sumula['team_1'] = $team_1;
         $sumula['team_2'] = $team_2;
@@ -181,7 +201,7 @@ class PdfSumulaCampoController extends Controller
         $sumula['totalPartidasTime1'] = $totalJogos1;
         $sumula['totalPartidasTime2'] = $totalJogos2;
 
-        //return response()->json($sumula, 500);
+        // return response()->json($players2, 500);
 
         $sumula['logo'] = PdfSumulaCampoController::getLogo($tournament);
         $pdf = PDF::loadView('sumula-futebol-campo-pdf', compact('sumula'));
