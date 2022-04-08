@@ -203,11 +203,12 @@ class PdfSumulaCampoController extends Controller
 
         // return response()->json($players2, 500);
 
+        $data = date("FjYg:ia");
         $sumula['logo'] = PdfSumulaCampoController::getLogo($tournament);
         $pdf = PDF::loadView('sumula-futebol-campo-pdf', compact('sumula'));
         $pdf->setOptions(['dpi' => 100, 'defaultFont' => 'sans-serif']);
         return $pdf->setPaper('a4')->stream(
-            'invoice.pdf',
+            'sumula' . $data . 'pdf',
             array("Attachment" => false)
         );
     }
