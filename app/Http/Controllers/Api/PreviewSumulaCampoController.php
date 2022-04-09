@@ -243,8 +243,8 @@ class PreviewSumulaCampoController extends Controller
                     $totalGols2 = $totalGols2 + $m->score2;
                 } else if ($m->score1 < $m->score2) {
                     $totalVitorias2++;
-                    $totalGols2 = $totalGols2 + $m->score1;
-                    $totalGols1 = $totalGols1 + $m->score2;
+                    $totalGols2 = $totalGols2 + $m->score2;
+                    $totalGols1 = $totalGols1 + $m->score1;
                 }
             }
 
@@ -278,13 +278,14 @@ class PreviewSumulaCampoController extends Controller
         $sumula['mediaGols'] = number_format($media, 2, ',', '.');
         $sumula['totalEmpates'] = $totalEmpates;
 
+        // return response()->json($sumula, 200);
 
         $data = date("FjYg:ia");
         $sumula['logo'] = PreviewSumulaCampoController::getLogo($tournament);
         $pdf = PDF::loadView('preview-futebol-campo-pdf', compact('sumula'));
         $pdf->setOptions(['dpi' => 100, 'defaultFont' => 'sans-serif']);
         return $pdf->setPaper('a4')->stream(
-            'sumula-' . $data,
+            $sumula['team_1']->t_initials . '-' . $sumula['team_2']->t_initials . $data,
             array("Attachment" => false)
         );
     }
