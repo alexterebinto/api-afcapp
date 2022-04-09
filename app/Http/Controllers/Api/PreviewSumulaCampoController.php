@@ -201,7 +201,6 @@ class PreviewSumulaCampoController extends Controller
 
         if (isset($matchs_last)) {
 
-
             //limpar eventos
             $event = MatchEvent::where('match_id', '=', $matchs_last->id)->get();
 
@@ -318,20 +317,6 @@ class PreviewSumulaCampoController extends Controller
                 "verify_peer_name" => false,
             ),
         );
-
-        $img_path = $_ENV['SFTP_PATH_PHOTO_ATLETA'] . $foto;
-        $extencion = pathinfo($img_path, PATHINFO_EXTENSION);
-
-        try {
-            $data = file_get_contents($img_path, false, stream_context_create($opciones_ssl));
-            $img_base_64 = base64_encode($data);
-            $path_img = 'data:image/' . $extencion . ';base64,' . $img_base_64;
-            $img_base_64 = base64_encode($data);
-            $path_img = 'data:image/' . $extencion . ';base64,' . $img_base_64;
-            return $path_img;
-        } catch (Exception $e) {
-            echo $e->getMessage();
-        }
 
         $img_path = $_ENV['SFTP_PATH_PHOTO_ATLETA'] . "sem-foto-homem.jpg";
         $extencion = pathinfo($img_path, PATHINFO_EXTENSION);
