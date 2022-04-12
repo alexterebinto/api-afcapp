@@ -9,19 +9,12 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use App\Models\Team;
 use App\Models\Player;
 use App\Models\MatchEvent;
-use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Controllers\Controller;
-use Intervention\Image\ImageManagerStatic as Image;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Api\StandingController;
-use App\Models\Matchs;
-use App\Models\Matchday;
-use App\Models\Group;
-use App\Models\GroupTeam;
 use App\Models\Season;
-use App\Models\SeasonTeam;
+
 
 class TeamControllerMobile extends Controller
 {

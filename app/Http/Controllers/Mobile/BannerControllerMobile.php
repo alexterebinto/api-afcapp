@@ -1,11 +1,35 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Mobile;
 
+use App\Models\Banner;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
-class BannerController extends Controller
+
+class BannerControllerMobile extends Controller
 {
+
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    protected $model;
+
+    protected $user;
+
+    public function __construct(Banner $modelConstructor, Request $request)
+    {
+        $this->model = $modelConstructor;
+        $this->request = $request;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +37,9 @@ class BannerController extends Controller
      */
     public function index()
     {
-        //
+        $data = $this->model->paginate();
+
+        return response()->json($data, 200);
     }
 
     /**
@@ -45,7 +71,9 @@ class BannerController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = $this->model->paginate();
+
+        return response()->json($data, 200);
     }
 
     /**

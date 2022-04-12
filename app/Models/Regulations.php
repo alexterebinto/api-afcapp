@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Banner extends Model
+class Regulations extends Model
 {
     use HasFactory;
 
 
-    protected $table = 'nx510_bl_banners';
+    protected $table = 'nx_510_bl_regulation';
 }

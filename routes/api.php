@@ -24,6 +24,9 @@ use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\ArbitragemController;
 use App\Http\Controllers\Api\PdfSumulaCampoController;
 use App\Http\Controllers\Api\PreviewSumulaCampoController;
+use App\Http\Controllers\Mobile\BannerControllerMobile;
+use App\Http\Controllers\Mobile\RegulationsControllerMobile;
+
 
 Route::prefix('v1')->group(function () {
 
@@ -58,6 +61,8 @@ Route::prefix('v1')->group(function () {
         Route::get('events/{id}/goals', [EventsControllerMobile::class, 'goals']);
         Route::get('events/{id}/all', [EventsControllerMobile::class, 'all']);
         Route::get('matchs/played/{idMatch}', [MatchsControllerMobile::class, 'detail']);
+        Route::resource('banners', BannerControllerMobile::class);
+        Route::resource('regulations', RegulationsControllerMobile::class);
     });
 
 
