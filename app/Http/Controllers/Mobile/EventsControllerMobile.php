@@ -85,6 +85,7 @@ class EventsControllerMobile extends Controller
         foreach ($filters as $key  => $val) {
 
             $url =  $_ENV['APP_URL'] . "/api/v1/image?filename=" . $_ENV['SFTP_PATH_PHOTO_ATLETA'];
+            $url = $_ENV['SFTP_PATH_PHOTO_ATLETA'];
 
 
             $player = Player::with('team')->find($key);
@@ -168,6 +169,7 @@ class EventsControllerMobile extends Controller
         foreach ($filters as $key  => $val) {
 
             $url = $_ENV['APP_URL'] . "/api/v1/image?filename=" . $_ENV['SFTP_PATH_PHOTO_ATLETA'];
+            $url = $_ENV['SFTP_PATH_PHOTO_ATLETA'];
 
 
             $player = Player::with('team')->find($key);

@@ -72,6 +72,7 @@ class TeamControllerMobile extends Controller
         foreach ($filters as $key  => $val) {
 
             $url = $_ENV['APP_URL'] . "/api/v1/image?filename=" . $_ENV['SFTP_PATH_PHOTO_ATLETA'];
+            $url = $_ENV['SFTP_PATH_PHOTO_ATLETA'];
 
 
             $player = Player::with('team')->find($key);
@@ -92,10 +93,12 @@ class TeamControllerMobile extends Controller
             }
         }
 
-        array_multisort($sort_arr['goals'], SORT_DESC, $table_view);
+        if ($i > 1) {
+            array_multisort($sort_arr['goals'], SORT_DESC, $table_view);
+        }
+
 
         $list =   $table_view;
-
         $cont = 1;
         $classificacao = array();
 
