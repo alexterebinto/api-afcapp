@@ -26,6 +26,7 @@ use App\Http\Controllers\Api\PdfSumulaCampoController;
 use App\Http\Controllers\Api\PreviewSumulaCampoController;
 use App\Http\Controllers\Mobile\BannerControllerMobile;
 use App\Http\Controllers\Mobile\RegulationsControllerMobile;
+use App\Http\Controllers\Api\PdfSumulaSuicoController;
 
 
 Route::prefix('v1')->group(function () {
@@ -36,6 +37,7 @@ Route::prefix('v1')->group(function () {
     Route::get('image', [ImageController::class, 'image']);
     Route::get('sumulaFutebolCampo/{idMatch}', [PdfSumulaCampoController::class, 'sumulaFutebolCampo']);
     Route::get('preview/{idMatch}', [PreviewSumulaCampoController::class, 'preview']);
+    Route::get('sumulaFutebolSuico/{idMatch}', [PdfSumulaSuicoController::class, 'sumulaFutebolSuico']);
 
 
 

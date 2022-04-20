@@ -69,11 +69,7 @@ class TeamController extends Controller
         // validate incoming request
 
         $validator = Validator::make($request->all(), [
-            't_name' => 'required|unique:nx510_bl_teams',
-            't_email' => 'required',
-            't_descr' => 'required',
-            't_emblem' => 'required'
-
+            't_name' => 'required|unique:nx510_bl_teams'
         ]);
 
         if ($validator->fails()) {
@@ -101,7 +97,7 @@ class TeamController extends Controller
 
                 $imageName = $name . "." . $extension;
 
-                $upload =  Storage::disk('ftp')->put($_ENV['SFTP_DIRETORIO_TEAMS']. $imageName, base64_decode($image));
+                $upload =  Storage::disk('ftp')->put($_ENV['SFTP_DIRETORIO_TEAMS'] . $imageName, base64_decode($image));
             } catch (\Exception $e) {
                 return response()->json(['error' => 'Falha ao fazer upload drive'], 500);
             }
@@ -203,9 +199,9 @@ class TeamController extends Controller
 
         if (strpos($request->t_emblem, ';base64')) {
 
-            if ($imageName!="semescudo.jpg"){
+            if ($imageName != "semescudo.jpg") {
                 try {
-                    $delete =  Storage::disk('ftp')->delete($_ENV['SFTP_DIRETORIO_TEAMS'].$mysqlRegister->t_emblem);
+                    $delete =  Storage::disk('ftp')->delete($_ENV['SFTP_DIRETORIO_TEAMS'] . $mysqlRegister->t_emblem);
                 } catch (\Exception $e) {
                     return response()->json(['error' => 'Falha ao fazer delete drive'], 500);
                 }
