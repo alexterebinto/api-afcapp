@@ -103,7 +103,7 @@ class ImageController extends Controller
         header('Content-type: ' . $ctype);
         $test =  imagejpeg($image_p, null, 100);
 
-        echo  $test;
+        return  $test;
     }
 
     /**
@@ -168,14 +168,10 @@ class ImageController extends Controller
             default:
         }
 
-
-
-
         // Gerando a imagem de saída para ver no browser, qualidade 75%:
-
-        header('Content-type: ' . $ctype);
         $test =  imagejpeg($image_p, null, 100);
-
-        echo  $test;
+        //updated, return success response
+        return response()($test, Response::HTTP_OK)->header('Content-type: ' . $ctype)->header('Access-Control-Allow-Origin', '*')
+            ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')->header('Access-Control-Allow-Headers');
     }
 }
