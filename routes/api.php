@@ -35,6 +35,7 @@ Route::prefix('v1')->group(function () {
     Route::post('register', [UserApiController::class, 'store']);
     Route::resource('dashboard', DashboardController::class);
     Route::get('image', [ImageController::class, 'image']);
+    Route::get('imagetest', [ImageController::class, 'imagetest']);
     Route::get('sumulaFutebolCampo/{idMatch}', [PdfSumulaCampoController::class, 'sumulaFutebolCampo']);
     Route::get('preview/{idMatch}', [PreviewSumulaCampoController::class, 'preview']);
     Route::get('sumulaFutebolSuico/{idMatch}', [PdfSumulaSuicoController::class, 'sumulaFutebolSuico']);
