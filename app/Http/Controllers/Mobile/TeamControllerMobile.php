@@ -503,6 +503,7 @@ class TeamControllerMobile extends Controller
             foreach ($teams['players']  as $player) {
 
                 $url = $_ENV['APP_URL'] . "/api/v1/image?filename=" . $_ENV['SFTP_PATH_PHOTO_ATLETA'];
+                $url = $_ENV['SFTP_PATH_PHOTO_ATLETA'];
                 $img = $player->def_img;
                 $player->def_img =  $url . $img;
 
@@ -631,6 +632,7 @@ class TeamControllerMobile extends Controller
             foreach ($teams['players']  as $player) {
 
                 $url = $_ENV['APP_URL'] . "/api/v1/image?filename=" . $_ENV['SFTP_PATH_PHOTO_ATLETA'];
+                $url = $_ENV['SFTP_PATH_PHOTO_ATLETA'];
                 $img = $player->def_img;
                 $player->def_img =  $url . $img;
             }
