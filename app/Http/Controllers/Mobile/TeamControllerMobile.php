@@ -71,7 +71,7 @@ class TeamControllerMobile extends Controller
         $i = 1;
         foreach ($filters as $key  => $val) {
 
-            $url = "https://" . $_ENV['APP_URL'] . "/api/v1/image?filename=" . $_ENV['SFTP_PATH_PHOTO_ATLETA'];
+            $url = $_ENV['APP_URL'] . "/api/v1/image?filename=" . $_ENV['SFTP_PATH_PHOTO_ATLETA'];
 
 
             $player = Player::with('team')->find($key);
@@ -499,7 +499,7 @@ class TeamControllerMobile extends Controller
 
             foreach ($teams['players']  as $player) {
 
-                $url = "https://" . $_ENV['APP_URL'] . "/api/v1/image?filename=" . $_ENV['SFTP_PATH_PHOTO_ATLETA'];
+                $url = $_ENV['APP_URL'] . "/api/v1/image?filename=" . $_ENV['SFTP_PATH_PHOTO_ATLETA'];
                 $img = $player->def_img;
                 $player->def_img =  $url . $img;
 
@@ -627,7 +627,7 @@ class TeamControllerMobile extends Controller
 
             foreach ($teams['players']  as $player) {
 
-                $url = "https://" . $_ENV['APP_URL'] . "/api/v1/image?filename=" . $_ENV['SFTP_PATH_PHOTO_ATLETA'];
+                $url = $_ENV['APP_URL'] . "/api/v1/image?filename=" . $_ENV['SFTP_PATH_PHOTO_ATLETA'];
                 $img = $player->def_img;
                 $player->def_img =  $url . $img;
             }
