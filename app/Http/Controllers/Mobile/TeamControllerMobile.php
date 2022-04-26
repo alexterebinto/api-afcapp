@@ -384,6 +384,10 @@ class TeamControllerMobile extends Controller
         //calcular aproveitamento
         $totalJogos = $vitorias + $empates + $derrotas;
 
+        $aproveitamento = 0;
+        $aproveitamentoMandante = 0;
+        $aproveitamentoVisitante = 0;
+
         if ($totalJogos > 0) {
 
             $totalPontos = $totalJogos * 3;
@@ -398,12 +402,12 @@ class TeamControllerMobile extends Controller
 
             $totalPontosTime = $pontosVitorias + $pontosEmpates;
 
+
+
             if ($totalPontosTime > 0) {
 
                 $aproveitamento = (100 * $totalPontosTime) / $totalPontos;
                 $aproveitamento = round($aproveitamento, 2);
-            } else {
-                $aproveitamento = 0;
             }
         }
 
