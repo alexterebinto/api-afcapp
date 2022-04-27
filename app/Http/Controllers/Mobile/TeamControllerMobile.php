@@ -293,6 +293,7 @@ class TeamControllerMobile extends Controller
         $mysqlRegister = Season::where('t_id', '=', $idTorneio)->orderBy('id', 'DESC')->first();
 
         $seasson = $mysqlRegister->id;
+        // $seasson = 39;
 
 
         $team = Team::find($id);
@@ -316,8 +317,6 @@ class TeamControllerMobile extends Controller
             ->join('nx510_bl_match', 'nx510_bl_matchday.id', '=', 'nx510_bl_match.m_id')
             ->where('nx510_bl_matchday.s_id', '=', $seasson)
             ->where('nx510_bl_match.m_played', '=', '1')
-            ->where('nx510_bl_match.team1_id', '=', $id)
-            ->orWhere('nx510_bl_match.team2_id', '=', $id)
             ->orderByRaw('nx510_bl_match.m_date DESC')
             ->get();
 
@@ -402,8 +401,6 @@ class TeamControllerMobile extends Controller
 
             $totalPontosTime = $pontosVitorias + $pontosEmpates;
 
-
-
             if ($totalPontosTime > 0) {
 
                 $aproveitamento = (100 * $totalPontosTime) / $totalPontos;
@@ -463,6 +460,8 @@ class TeamControllerMobile extends Controller
             }
         }
 
+
+        $team['totalGames'] = $totalJogos;
         $team['win'] = $vitorias;
         $team['draw'] = $empates;
         $team['lost'] = $derrotas;
@@ -475,7 +474,7 @@ class TeamControllerMobile extends Controller
         $team['enjoymentAway'] = $aproveitamentoVisitante;
         $team['count_yellow'] = $totalCartaoAmarelo;
         $team['count_red'] = $totalCartaoVermelho;
-        $team['count_blue'] = $totalCartaoAzul;
+        //$team['count_blue'] = $totalCartaoAzul;
 
 
         //updated, return success response
