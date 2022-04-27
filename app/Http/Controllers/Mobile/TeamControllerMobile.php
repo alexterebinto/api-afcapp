@@ -465,6 +465,12 @@ class TeamControllerMobile extends Controller
         $team['win'] = $vitorias;
         $team['draw'] = $empates;
         $team['lost'] = $derrotas;
+        $team['winHome'] = $vitoriasMandante;
+        $team['drawHome'] = $empatesMandante;
+        $team['lostHome'] = $derrotasMandante;
+        $team['winAway'] = $vitoriasVisitante;
+        $team['drawAway'] = $empatesVisitante;
+        $team['lostAway'] = $derrotasVisitante;
         $team['points'] = ($vitorias * 3) + $empates;
         $team['goal_score'] = $golsMarcados;
         $team['goals_conc'] = $golsSofridos;
