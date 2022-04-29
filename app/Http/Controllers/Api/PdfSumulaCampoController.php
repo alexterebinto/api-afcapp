@@ -73,14 +73,14 @@ class PdfSumulaCampoController extends Controller
         $team_1 = Team::find($match->team1_id);
         $team_1->t_initials = substr($team_1->t_name, 0, 3);
 
-        $players1 = Player::where('team_id', '=', $match->team1_id)->where('position_id', '<', 12)->orderBy('first_name', 'ASC')->get();
+        $players1 = Player::where('team_id', '=', $match->team1_id)->where('position_id', '<', 13)->orderBy('first_name', 'ASC')->get();
         $treinador1 = Player::where('team_id', '=', $match->team1_id)->whereIn('position_id', [12, 16])->orderBy('first_name', 'ASC')->first();
         $auxiliar11 = Player::where('team_id', '=', $match->team1_id)->whereIn('position_id', [13])->orderBy('first_name', 'ASC')->first();
         $auxiliar12 = Player::where('team_id', '=', $match->team1_id)->whereIn('position_id', [14])->orderBy('first_name', 'ASC')->first();
 
         $team_2 = Team::find($match->team2_id);
         $team_2->t_initials = substr($team_2->t_name, 0, 3);
-        $players2 = Player::where('team_id', '=', $match->team2_id)->where('position_id', '<', 12)->orderBy('first_name', 'ASC')->get();
+        $players2 = Player::where('team_id', '=', $match->team2_id)->where('position_id', '<', 13)->orderBy('first_name', 'ASC')->get();
         $treinador2 = Player::where('team_id', '=', $match->team2_id)->whereIn('position_id', [12, 16])->orderBy('first_name', 'ASC')->first();
         $auxiliar21 = Player::where('team_id', '=', $match->team2_id)->whereIn('position_id', [13])->orderBy('first_name', 'ASC')->first();
         $auxiliar22 = Player::where('team_id', '=', $match->team2_id)->whereIn('position_id', [14])->orderBy('first_name', 'ASC')->first();
