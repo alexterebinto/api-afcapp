@@ -222,18 +222,37 @@ class TeamControllerMobile extends Controller
 
         $seasson = $mysqlRegister->id;
 
-
         $matchs = DB::table('nx510_bl_matchday')
             ->join('nx510_bl_match', 'nx510_bl_matchday.id', '=', 'nx510_bl_match.m_id')
             ->where('nx510_bl_matchday.s_id', '=', $seasson)
             ->where('nx510_bl_match.m_played', '=', '1')
-            ->where('nx510_bl_match.team1_id', '=', $id)
-            ->orWhere('nx510_bl_match.team2_id', '=', $id)
             ->orderByRaw('nx510_bl_match.m_date DESC')
             ->get();
 
+        $array = array();
 
-        $team['matchs'] = $matchs;
+        foreach ($matchs as $mm) {
+
+            if ($mm->team1_id == $id) {
+
+                $team1 = Team::find($mm->team1_id);
+                $team2 = Team::find($mm->team2_id);
+                $mm->team1 = $team1;
+                $mm->team2 = $team2;
+
+
+                array_push($array, $mm);
+            } else if ($mm->team2_id == $id) {
+
+                $team1 = Team::find($mm->team1_id);
+                $team2 = Team::find($mm->team2_id);
+                $mm->team1 = $team1;
+                $mm->team2 = $team2;
+                array_push($array, $mm);
+            }
+        }
+
+        $team['lastmatchs'] = $array;
 
         //updated, return success response
         return response()->json([
