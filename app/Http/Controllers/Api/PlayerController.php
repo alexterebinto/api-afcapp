@@ -53,31 +53,41 @@ class PlayerController extends Controller
 
         $players =  array();
 
-        if ($search && $team_id){
+        if ($search && $team_id) {
 
             $players = Player::with('team')
-            ->where('team_id', '=', $team_id)
-            ->where('first_name', 'like', '%' . $search . '%')
-            ->orWhere('last_name', 'like', '%' . $search . '%')
-            ->orderBy('first_name', 'ASC')
-            ->get();
-        }else if ($search){
+                ->where('team_id', '=', $team_id)
+                ->where('first_name', 'like', '%' . $search . '%')
+                ->orWhere('last_name', 'like', '%' . $search . '%')
+                ->orderBy('first_name', 'ASC')
+                ->get();
+        } else if ($search) {
             $players = Player::with('team')
-            ->where('first_name', 'like', '%' .  $search . '%')
-            ->orWhere('last_name', 'like', '%' .  $search . '%')
-            ->orderBy('first_name', 'ASC')
-            ->get();
-
-        }else if ($team_id){
+                ->where('first_name', 'like', '%' .  $search . '%')
+                ->orWhere('last_name', 'like', '%' .  $search . '%')
+                ->orderBy('first_name', 'ASC')
+                ->get();
+        } else if ($team_id) {
 
             $players = Player::with('team')
-            ->where('team_id', '=', $team_id)
-            ->orderBy('first_name', 'ASC')
-            ->get();
+                ->where('team_id', '=', $team_id)
+                ->orderBy('first_name', 'ASC')
+                ->get();
         }
 
         if (empty($players)) {
             return response()->json(['error' => 'Jogador(es) não encontrado(os)!'], 200);
+        }
+
+        foreach ($players as $player) {
+
+
+            $url = $_ENV['APP_URL'] . "/api/v1/image?filename=" . $_ENV['SFTP_PATH_PHOTO_ATLETA'];
+            $url = $_ENV['SFTP_PATH_PHOTO_ATLETA'];
+
+            if (!file_exists($url . $player->def_img)) {
+                $player->def_img =  "sem-foto-homem.jpg";
+            }
         }
 
         return response()->json([
@@ -149,7 +159,7 @@ class PlayerController extends Controller
 
                 $upload =  Storage::disk('ftp')->put($_ENV['SFTP_DIRETORIO_PLAYERS'] . $imageName, base64_decode($image));
             } catch (\Exception $e) {
-                return response()->json(['error' => 'Falha ao fazer upload frp drive' . $e ], 500);
+                return response()->json(['error' => 'Falha ao fazer upload frp drive' . $e], 500);
             }
 
             if (!$upload) {
@@ -161,13 +171,13 @@ class PlayerController extends Controller
 
         $data = $this->model->create($dataForm);
         $dataHistorico = new HistoricoAtleta();
-        $dataHistorico->team_id=$data->team_id;
-        $dataHistorico->player_id=$data->id;
+        $dataHistorico->team_id = $data->team_id;
+        $dataHistorico->player_id = $data->id;
 
         $seassonTeam = SeasonTeam::where('team_id', '=', $data->team_id)->first();
 
         if ($seassonTeam) {
-            $dataHistorico->session_id=$seassonTeam->season_id;
+            $dataHistorico->session_id = $seassonTeam->season_id;
             $dataHistorico->save();
         }
 
