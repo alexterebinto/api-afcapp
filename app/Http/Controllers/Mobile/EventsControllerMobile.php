@@ -84,22 +84,20 @@ class EventsControllerMobile extends Controller
         $i = 1;
         foreach ($filters as $key  => $val) {
 
-            $url =  $_ENV['APP_URL'] . "/api/v1/image?filename=" . $_ENV['SFTP_PATH_PHOTO_ATLETA'];
+            $url_resize =  $_ENV['APP_URL'] . "/api/v1/image?filename=" . $_ENV['SFTP_PATH_PHOTO_ATLETA'];
             $url = $_ENV['SFTP_PATH_PHOTO_ATLETA'];
 
             $player = Player::with('team')->find($key);
 
-            if (file_exists($url . $player->def_img)) {
-                $table_view[$i]['def_img'] = $url . $player->def_img;
-            } else {
-                $table_view[$i]['def_img'] = $url . "sem-foto-homem.jpg";
+            if (!file_exists($url . $player->def_img)) {
+                $player->def_img = "sem-foto-homem.jpg";
             }
-
 
             $player = Player::with('team')->find($key);
             $table_view[$i]['id'] = $player->id;
             $table_view[$i]['first_name'] = $player->first_name;
             $table_view[$i]['last_name'] = $player->last_name;
+            $table_view[$i]['def_img'] = $url_resize . $player->def_img;
             $table_view[$i]['team_id'] = $player->team_id;
             $table_view[$i]['t_name'] = $player->team->t_name;
             $table_view[$i]['goals'] = $val;
@@ -175,25 +173,20 @@ class EventsControllerMobile extends Controller
         $i = 1;
         foreach ($filters as $key  => $val) {
 
-            $url = $_ENV['APP_URL'] . "/api/v1/image?filename=" . $_ENV['SFTP_PATH_PHOTO_ATLETA'];
+            $url_resize =  $_ENV['APP_URL'] . "/api/v1/image?filename=" . $_ENV['SFTP_PATH_PHOTO_ATLETA'];
+            $url = $_ENV['SFTP_PATH_PHOTO_ATLETA'];
 
             $player = Player::with('team')->find($key);
 
-            if (file_exists($url . $player->def_img)) {
-                $table_view[$i]['def_img'] = $url . $player->def_img;
-            } else {
-                $table_view[$i]['def_img'] = $url . "sem-foto-homem.jpg";
+            if (!file_exists($url . $player->def_img)) {
+                $player->def_img = "sem-foto-homem.jpg";
             }
-
-
-
-            // $url = $_ENV['SFTP_PATH_PHOTO_ATLETA'];
-
 
             $player = Player::with('team')->find($key);
             $table_view[$i]['id'] = $player->id;
             $table_view[$i]['first_name'] = $player->first_name;
             $table_view[$i]['last_name'] = $player->last_name;
+            $table_view[$i]['def_img'] = $url_resize . $player->def_img;
             $table_view[$i]['team_id'] = $player->team_id;
             $table_view[$i]['t_name'] = $player->team->t_name;
             $table_view[$i]['goals'] = $val;
