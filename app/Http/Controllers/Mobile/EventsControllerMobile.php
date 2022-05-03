@@ -92,17 +92,7 @@ class EventsControllerMobile extends Controller
             $table_view[$i]['id'] = $player->id;
             $table_view[$i]['first_name'] = $player->first_name;
             $table_view[$i]['last_name'] = $player->last_name;
-
-
-
-            if (!file_exists($_ENV['SFTP_PATH_PHOTO_ATLETA'] . $player->def_img)) {
-                $table_view[$i]['def_img'] = $url . "sem-foto-homem.jpg";
-            } else {
-                $table_view[$i]['def_img'] = $url . $player->def_img;
-            }
-
-            $table_view[$i]['def_original'] = $_ENV['SFTP_PATH_PHOTO_ATLETA'] . $player->def_img;
-
+            $table_view[$i]['def_img'] = $url . $player->def_img;
             $table_view[$i]['team_id'] = $player->team_id;
             $table_view[$i]['t_name'] = $player->team->t_name;
             $table_view[$i]['goals'] = $val;
