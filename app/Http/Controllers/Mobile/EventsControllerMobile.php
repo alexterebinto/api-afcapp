@@ -85,15 +85,22 @@ class EventsControllerMobile extends Controller
         foreach ($filters as $key  => $val) {
 
             $url =  $_ENV['APP_URL'] . "/api/v1/image?filename=" . $_ENV['SFTP_PATH_PHOTO_ATLETA'];
-            $url = $_ENV['SFTP_PATH_PHOTO_ATLETA'];
+            //$url = $_ENV['SFTP_PATH_PHOTO_ATLETA'];
 
 
             $player = Player::with('team')->find($key);
             $table_view[$i]['id'] = $player->id;
             $table_view[$i]['first_name'] = $player->first_name;
             $table_view[$i]['last_name'] = $player->last_name;
-            $table_view[$i]['def_img'] = $url . $player->def_img;
-            $table_view[$i]['def_img'] = $url . "sem-foto-homem.jpg";
+
+
+
+            if (!file_exists($_ENV['SFTP_PATH_PHOTO_ATLETA'] . $player->def_img)) {
+                $table_view[$i]['def_img'] = $url . "sem-foto-homem.jpg";
+            } else {
+                $table_view[$i]['def_img'] = $url . $player->def_img;
+            }
+
             $table_view[$i]['team_id'] = $player->team_id;
             $table_view[$i]['t_name'] = $player->team->t_name;
             $table_view[$i]['goals'] = $val;
