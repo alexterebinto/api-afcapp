@@ -80,6 +80,10 @@ class PlayerController extends Controller
         }
 
         foreach ($players as $player) {
+
+            if (!file_exists($_ENV['SFTP_PATH_PHOTO_ATLETA'] . $player->def_img)) {
+                $player->def_img = "sem-foto-homem.jpg";
+            }
         }
 
         return response()->json([
