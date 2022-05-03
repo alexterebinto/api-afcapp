@@ -80,14 +80,6 @@ class PlayerController extends Controller
         }
 
         foreach ($players as $player) {
-
-
-            $url = $_ENV['APP_URL'] . "/api/v1/image?filename=" . $_ENV['SFTP_PATH_PHOTO_ATLETA'];
-            $url = $_ENV['SFTP_PATH_PHOTO_ATLETA'];
-
-            if (!file_exists($url . $player->def_img)) {
-                $player->def_img =  "sem-foto-homem.jpg";
-            }
         }
 
         return response()->json([
