@@ -178,9 +178,9 @@ class EventsControllerMobile extends Controller
 
             $player = Player::with('team')->find($key);
 
-            if (!file_exists($url . $player->def_img)) {
-                $player->def_img = "sem-foto-homem.jpg";
-            }
+            //if (!file_exists($url . $player->def_img)) {
+            $player->def_img = "sem-foto-homem.jpg";
+            // }
 
             $player = Player::with('team')->find($key);
             $table_view[$i]['id'] = $player->id;
