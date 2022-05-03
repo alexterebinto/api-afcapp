@@ -84,7 +84,7 @@ class PlayerController extends Controller
             if (file_exists($_ENV['SFTP_PATH_PHOTO_ATLETA'] . $player->def_img)) {
             } else {
 
-                $player->def_img = "sem-foto-homem.jpg";
+                //  $player->def_img = "sem-foto-homem.jpg";
             }
         }
 
