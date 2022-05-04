@@ -39,7 +39,7 @@ class ChampionsControllerMobile extends Controller
      */
     public function index()
     {
-        $data = $this->model->all()->orderBy('id', 'DESC');
+        $data = Campeoes::orderBy('id', 'desc')->get();
 
         $cont = 0;
         foreach ($data as $e) {
