@@ -115,39 +115,103 @@ class PdfSumulaCampoController extends Controller
         $team_1['logo'] = PdfSumulaCampoController::getLogoClube($team_1);
         $team_2['logo'] = PdfSumulaCampoController::getLogoClube($team_2);
 
+        $matchs = DB::table('nx510_bl_matchday')
+            ->join('nx510_bl_match', 'nx510_bl_matchday.id', '=', 'nx510_bl_match.m_id')
+            ->where('nx510_bl_matchday.s_id', '=', $matchday->s_id)
+            ->where('nx510_bl_match.m_played', '=', '1')
+            ->orderByRaw('nx510_bl_matchday.id ASC')->get();
 
-        foreach ($players1  as $p) {
+        $totalJogos1 = 0;
+        $totalJogos2 = 0;
+        $sumula['totalPartidasTime1'] = 0;
+        $sumula['totalPartidasTime2'] = 0;
 
-            $suspensao = Suspensao::where('player_id', '=', $p->id)->first();
+        foreach ($matchs  as $m) {
 
+            if ($m->team1_id == $match->team1_id) {
+                $totalJogos1++;
+            } else if ($m->team2_id == $match->team1_id) {
+                $totalJogos1++;
+            }
 
-            if (isset($suspensao)) {
-                $p['suspensoPunicao'] = 1;
-                $p['isSuspenso'] = 1;
-            } else {
-                $p['isSuspenso'] = 0;
-                $p['suspensoAmarelo'] = 0;
-                $p['suspensoVermelho'] = 0;
-                $p['suspensoPunicao'] = 0;
+            if ($m->team1_id == $match->team2_id) {
+                $totalJogos2++;
+            } else if ($m->team2_id == $match->team2_id) {
+                $totalJogos2++;
             }
         }
 
 
+        $arrayPlayers = array();
+        foreach ($players1  as $p) {
+            array_push($arrayPlayers, $p->id);
+        }
+
+        foreach ($players2  as $p) {
+            array_push($arrayPlayers, $p->id);
+        }
+
+        $suspensao = Suspensao::where('season_id', '=', $season->id)->whereIn('player_id', $arrayPlayers)->get();
+
+
+
+
+        $suspensao = Suspensao::where('season_id', '=', $season->id)->whereIn('player_id', $arrayPlayers)->get();
+
+        foreach ($players1  as $p) {
+
+            //lista de suspensao
+            if (isset($suspensao)) {
+
+                //varrer a lista
+                foreach ($suspensao  as $s) {
+
+                    if ($p->id == $s->player_id) {
+
+                        //suspensao é de uma rodada valida?
+                        if ($matchday->m_name > $s->m_id) {
+
+                            //preciso saber depois da rodada ativa cadasatrada, total de jogos realizados
+                            // caso total de jogos realizados for maior que a suspensao esta livre
+                            $diferencaJogos = $matchday->m_name - $s->m_id;
+
+                            if ($s->totalPartidas > $diferencaJogos) {
+
+                                $p['suspensoPunicao'] = 1;
+                                $p['isSuspenso'] = 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
 
         foreach ($players2  as $p) {
 
-            $suspensao = Suspensao::where('player_id', '=', $p->id)->where('season_id', '=', $season->id)->where('m_id', '=', $matchday->m_name)->first();
-
-
+            //lista de suspensao
             if (isset($suspensao)) {
-                $p['suspensoPunicao'] = 1;
-                $p['isSuspenso'] = 1;
-            } else {
 
-                $p['isSuspenso'] = 0;
-                $p['suspensoAmarelo'] = 0;
-                $p['suspensoVermelho'] = 0;
-                $p['suspensoPunicao'] = 0;
+                //varrer a lista
+                foreach ($suspensao  as $s) {
+
+                    if ($p->id == $s->player_id) {
+
+                        //suspensao é de uma rodada valida?
+                        if ($matchday->m_name > $s->m_id) {
+
+                            //preciso saber depois da rodada ativa cadasatrada, total de jogos realizados
+                            // caso total de jogos realizados for maior que a suspensao esta livre
+                            $diferencaJogos = $matchday->m_name - $s->m_id;
+
+                            if ($s->totalPartidas > $diferencaJogos) {
+
+                                $p['suspensoPunicao'] = 1;
+                                $p['isSuspenso'] = 1;
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -180,31 +244,7 @@ class PdfSumulaCampoController extends Controller
         $sumula['vagasInscricoes'] = $arrayVagasInscricoes1;
         $sumula['vagasInscricoes2'] = $arrayVagasInscricoes2;
 
-        $matchs = DB::table('nx510_bl_matchday')
-            ->join('nx510_bl_match', 'nx510_bl_matchday.id', '=', 'nx510_bl_match.m_id')
-            ->where('nx510_bl_matchday.s_id', '=', $matchday->s_id)
-            ->where('nx510_bl_match.m_played', '=', '1')
-            ->orderByRaw('nx510_bl_matchday.id ASC')->get();
 
-        $totalJogos1 = 0;
-        $totalJogos2 = 0;
-        $sumula['totalPartidasTime1'] = 0;
-        $sumula['totalPartidasTime2'] = 0;
-
-        foreach ($matchs  as $m) {
-
-            if ($m->team1_id == $match->team1_id) {
-                $totalJogos1++;
-            } else if ($m->team2_id == $match->team1_id) {
-                $totalJogos1++;
-            }
-
-            if ($m->team1_id == $match->team2_id) {
-                $totalJogos2++;
-            } else if ($m->team2_id == $match->team2_id) {
-                $totalJogos2++;
-            }
-        }
 
         $sumula['totalPartidasTime1'] = $totalJogos1;
         $sumula['totalPartidasTime2'] = $totalJogos2;
