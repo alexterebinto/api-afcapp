@@ -143,6 +143,7 @@ class PdfSumulaCampoController extends Controller
 
 
         $arrayPlayers = array();
+
         foreach ($players1  as $p) {
             array_push($arrayPlayers, $p->id);
         }
@@ -150,11 +151,6 @@ class PdfSumulaCampoController extends Controller
         foreach ($players2  as $p) {
             array_push($arrayPlayers, $p->id);
         }
-
-        $suspensao = Suspensao::where('season_id', '=', $season->id)->whereIn('player_id', $arrayPlayers)->get();
-
-
-
 
         $suspensao = Suspensao::where('season_id', '=', $season->id)->whereIn('player_id', $arrayPlayers)->get();
 
