@@ -48,10 +48,11 @@
                 <p align="center" style="font-size: 10px; text-transform: uppercase;">
                     <strong>{{ $sumula['tournament']->name }}
                 </p>
-                <p align="center" style="font-size: 10px;  text-transform: uppercase;">
+                <p align="center"
+                    style="font-size: 10px;  text-transform: uppercase; border:1px gray solid; padding:2px; background-color: black; color:white;">
                     <b>{{ $sumula['match']->m_location }}
                         {{ $sumula['match']->m_date }} {{ $sumula['match']->m_time }}
-                        1 Rodada</strong></b>
+                        {{ $sumula['rodada'] }}&#170;. Rodada</strong></b>
                 </p>
                 <p align="center" style="font-size: 10px; font-weight: bold;">P{{ $sumula['match']->id }} - SUMULA E
                     RELAT&Oacute;RIO DA PARTIDA </b>

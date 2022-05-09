@@ -338,6 +338,7 @@ class PdfSumulaCampoController extends Controller
         $sumula['team_2'] = $team_2;
         $sumula['players2'] = $players2;
         $sumula['players1'] = $players1;
+        $sumula['rodada'] = $matchday->m_name;
         $team_1['totalInscritos'] = count($sumula['players1']);
         $team_2['totalInscritos'] = count($sumula['players2']);
 
