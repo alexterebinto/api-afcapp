@@ -606,7 +606,7 @@
                     </td>
                     <td width="90">
                         @if (isset($sumula['team_1']->treinador))
-                            {{ $sumula['team_1']->rg }}
+                            {{ $sumula['team_1']->treinador->rg }}
                         @endif
                     </td>
                     <td></td>

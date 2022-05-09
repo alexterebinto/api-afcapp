@@ -134,7 +134,10 @@ class PdfSumulaCampoController extends Controller
 
         if ($treinador1) {
             $team_1['treinador'] = $treinador1;
+            //  return response()->json($treinador1, 200);
         }
+
+
 
         if ($auxiliar11) {
             $team_1['auxiliar11'] = $auxiliar11;
