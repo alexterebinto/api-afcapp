@@ -137,11 +137,11 @@ class PdfSumulaCampoController extends Controller
         }
 
         if ($auxiliar11) {
-            $team_1['$auxiliar11'] = $auxiliar11;
+            $team_1['auxiliar11'] = $auxiliar11;
         }
 
         if ($auxiliar12) {
-            $team_1['$auxiliar12'] = $auxiliar12;
+            $team_1['auxiliar12'] = $auxiliar12;
         }
 
 
