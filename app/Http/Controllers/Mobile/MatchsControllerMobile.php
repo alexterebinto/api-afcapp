@@ -156,22 +156,22 @@ class MatchsControllerMobile extends Controller
         foreach ($matchs  as $m) {
 
 
-            if (trim($m->m_location) != "") {
-                $team1 = Team::find($m->team1_id);
-                $team2 = Team::find($m->team2_id);
-                $m->team1_id = $team1;
-                $m->team2_id = $team2;
+            // if (trim($m->m_location) != "") {
+            $team1 = Team::find($m->team1_id);
+            $team2 = Team::find($m->team2_id);
+            $m->team1_id = $team1;
+            $m->team2_id = $team2;
 
-                $m->score1 = "";
-                $m->score2 = "";
-                array_push($matchsLocation, $m);
-            }
+            $m->score1 = "";
+            $m->score2 = "";
+            //    array_push($matchsLocation, $m);
+            //}
         }
 
 
         //updated, return success response
         return response()->json([
-            $matchsLocation,
+            $matchs,
         ], Response::HTTP_OK);
     }
 
