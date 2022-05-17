@@ -146,25 +146,32 @@ class MatchsControllerMobile extends Controller
             ->join('nx510_bl_match', 'nx510_bl_matchday.id', '=', 'nx510_bl_match.m_id')
             ->where('nx510_bl_matchday.s_id', '=', $id)
             ->where('nx510_bl_match.m_played', '=', '0')
-            ->orderByRaw('nx510_bl_matchday.id ASC')
+            ->whereRaw('nx510_bl_match.m_location is not null')
+            ->orderByRaw('nx510_bl_match.m_date DESC ')
             ->paginate(30);
+
+        $matchsLocation = array();
 
 
         foreach ($matchs  as $m) {
 
-            $team1 = Team::find($m->team1_id);
-            $team2 = Team::find($m->team2_id);
-            $m->team1_id = $team1;
-            $m->team2_id = $team2;
 
-            $m->score1 = "";
-            $m->score2 = "";
+            if (trim($m->m_location) != "") {
+                $team1 = Team::find($m->team1_id);
+                $team2 = Team::find($m->team2_id);
+                $m->team1_id = $team1;
+                $m->team2_id = $team2;
+
+                $m->score1 = "";
+                $m->score2 = "";
+                array_push($matchsLocation, $m);
+            }
         }
 
 
         //updated, return success response
         return response()->json([
-            $matchs,
+            $matchsLocation,
         ], Response::HTTP_OK);
     }
 
