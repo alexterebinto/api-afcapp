@@ -49,7 +49,9 @@ class BannerControllerMobile extends Controller
      */
     public function standing()
     {
-        return response()->json("", 200);
+        $data = $this->model->paginate();
+
+        return response()->json($data, 200);
     }
 
     /**
@@ -59,9 +61,9 @@ class BannerControllerMobile extends Controller
      */
     public function stats()
     {
-        //  $data = $this->model->paginate();
+        $data = $this->model->paginate();
 
-        return response()->json("", 200);
+        return response()->json($data, 200);
     }
 
 
