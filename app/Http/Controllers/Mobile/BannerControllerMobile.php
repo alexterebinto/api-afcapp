@@ -43,6 +43,30 @@ class BannerControllerMobile extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function standing()
+    {
+        return response()->json("", 200);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function stats()
+    {
+        //  $data = $this->model->paginate();
+
+        return response()->json("", 200);
+    }
+
+
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response

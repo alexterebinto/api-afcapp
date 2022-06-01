@@ -65,7 +65,9 @@ Route::prefix('v1')->group(function () {
         Route::get('events/{id}/goals', [EventsControllerMobile::class, 'goals']);
         Route::get('events/{id}/all', [EventsControllerMobile::class, 'all']);
         Route::get('matchs/played/{idMatch}', [MatchsControllerMobile::class, 'detail']);
-        Route::resource('banners', BannerControllerMobile::class);
+        Route::get('banners', [BannerControllerMobile::class, 'index']);
+        Route::get('banners/standing', [BannerControllerMobile::class, 'standing']);
+        Route::get('banners/stats', [BannerControllerMobile::class, 'stats']);
         Route::resource('champions', ChampionsControllerMobile::class);
         Route::resource('regulations', RegulationsControllerMobile::class);
     });
