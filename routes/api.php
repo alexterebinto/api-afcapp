@@ -27,10 +27,9 @@ use App\Http\Controllers\Api\PreviewSumulaCampoController;
 use App\Http\Controllers\Mobile\BannerControllerMobile;
 use App\Http\Controllers\Mobile\ChampionsControllerMobile;
 use App\Http\Controllers\Mobile\RegulationsControllerMobile;
+use App\Http\Controllers\Mobile\PlayerControllerMobile;
 use App\Http\Controllers\Api\PdfSumulaSuicoController;
-
-
-
+use App\Http\Controllers\Api\LocalController;
 
 
 Route::prefix('v1')->group(function () {
@@ -44,11 +43,9 @@ Route::prefix('v1')->group(function () {
     Route::get('preview/{idMatch}', [PreviewSumulaCampoController::class, 'preview']);
     Route::get('sumulaFutebolSuico/{idMatch}', [PdfSumulaSuicoController::class, 'sumulaFutebolSuico']);
 
-
-
     //mobile
     Route::prefix('mobile')->group(function () {
-        Route::get('seasons/{id}/player/{idPlayer}', [PlayerController::class, 'atletaSumula']);
+        Route::get('seasons/{id}/player/{idPlayer}', [PlayerControllerMobile::class, 'atletaSumula']);
         Route::get('seasons/{idSeasson}/teams/{id}', [TeamControllerMobile::class, 'seasonteam']);
         Route::get('seasons/{idSeasson}/teams/{id}/stats', [TeamControllerMobile::class, 'stats']);
         Route::get('seasons/{idSeasson}/teams/{id}/sequence', [TeamControllerMobile::class, 'sequence']);
@@ -95,5 +92,6 @@ Route::prefix('v1')->group(function () {
         Route::resource('matchevents', MatchEventController::class);
         Route::get('arbitros', [ArbitragemController::class, 'arbitros']);
         Route::get('mesarios', [ArbitragemController::class, 'mesarios']);
+        Route::get('locals', [LocalController::class, 'locals']);
     });
 });
