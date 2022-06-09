@@ -339,7 +339,7 @@ class PdfSumulaCampoController extends Controller
             if ($p->totalCartaoVermelho > 0) {
                 if ($p['ultima_rodada_vermelho'] == ($team_1['ultimaRodada'])) {
                     $p['isSuspenso'] = 1;
-                    $p['suspensoAmarelo'] = 1;
+                    $p['suspensoVermelho'] = 1;
                 }
             }
         }
@@ -349,7 +349,7 @@ class PdfSumulaCampoController extends Controller
             if ($p->totalCartaoVermelho > 0) {
                 if ($p['ultima_rodada_vermelho'] == ($team_2['ultimaRodada'])) {
                     $p['isSuspenso'] = 1;
-                    $p['suspensoAmarelo'] = 1;
+                    $p['suspensoVermelho'] = 1;
                 }
             }
         }
