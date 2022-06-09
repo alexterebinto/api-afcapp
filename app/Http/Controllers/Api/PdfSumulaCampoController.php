@@ -245,6 +245,7 @@ class PdfSumulaCampoController extends Controller
                         $p['ultima_rodada_amarelo'] = $cartao->m_name;
                     } else if ($cartao->e_id == "2") {
                         $p['totalCartaoVermelho'] = $p['totalCartaoVermelho'] + 1;
+                        $p['ultima_rodada_vermelho'] = $cartao->m_name;
 
                         //verificar se a expulsao foi na rodada anterior
                         if ($cartao->m_name == ($matchday->m_name - 1)) {
@@ -297,12 +298,7 @@ class PdfSumulaCampoController extends Controller
                         $p['ultima_rodada_amarelo'] = $cartao->m_name;
                     } else if ($cartao->e_id == "2") {
                         $p['totalCartaoVermelho'] = $p['totalCartaoVermelho'] + 1;
-
-                        //verificar se a expulsao foi na rodada anterior
-                        if ($cartao->m_name == ($matchday->m_name - 1)) {
-                            $p['isSuspenso'] = 1;
-                            $p['suspensoVermelho'] = 1;
-                        }
+                        $p['ultima_rodada_vermelho'] = $cartao->m_name;
                     }
                 }
             }
@@ -333,6 +329,32 @@ class PdfSumulaCampoController extends Controller
                 }
             }
         }
+
+
+        //verificar cartões - vermelho
+
+        foreach ($players1  as $p) {
+
+
+            if ($p->totalCartaoVermelho > 0) {
+                if ($p['ultima_rodada_vermelho'] == ($team_1['ultimaRodada'])) {
+                    $p['isSuspenso'] = 1;
+                    $p['suspensoAmarelo'] = 1;
+                }
+            }
+        }
+
+        foreach ($players2  as $p) {
+
+            if ($p->totalCartaoVermelho > 0) {
+                if ($p['ultima_rodada_vermelho'] == ($team_2['ultimaRodada'])) {
+                    $p['isSuspenso'] = 1;
+                    $p['suspensoAmarelo'] = 1;
+                }
+            }
+        }
+
+
 
         $sumula['team_1'] = $team_1;
         $sumula['team_2'] = $team_2;
