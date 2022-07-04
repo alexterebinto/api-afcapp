@@ -30,6 +30,7 @@ use App\Http\Controllers\Mobile\RegulationsControllerMobile;
 use App\Http\Controllers\Mobile\PlayerControllerMobile;
 use App\Http\Controllers\Api\PdfSumulaSuicoController;
 use App\Http\Controllers\Api\LocalController;
+use App\Http\Controllers\Weka\WekaController;
 
 
 Route::prefix('v1')->group(function () {
@@ -42,6 +43,13 @@ Route::prefix('v1')->group(function () {
     Route::get('sumulaFutebolCampo/{idMatch}', [PdfSumulaCampoController::class, 'sumulaFutebolCampo']);
     Route::get('preview/{idMatch}', [PreviewSumulaCampoController::class, 'preview']);
     Route::get('sumulaFutebolSuico/{idMatch}', [PdfSumulaSuicoController::class, 'sumulaFutebolSuico']);
+
+    //mobile
+    Route::prefix('excel')->group(function () {
+        Route::get('weka1', [WekaController::class, 'weka1']);
+    });
+
+
 
     //mobile
     Route::prefix('mobile')->group(function () {
