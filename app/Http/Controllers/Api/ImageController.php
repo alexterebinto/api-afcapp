@@ -173,9 +173,9 @@ class ImageController extends Controller
         }
 
         // Gerando a imagem de saída para ver no browser, qualidade 75%:
+
+        header('Content-type: ' . $ctype);
         $test =  imagejpeg($image_p, null, 100);
-        //updated, return success response
-        return response()($test, Response::HTTP_OK)->header('Content-type: ' . $ctype)->header('Access-Control-Allow-Origin', '*')
-            ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')->header('Access-Control-Allow-Headers');
+        return  $test;
     }
 }
