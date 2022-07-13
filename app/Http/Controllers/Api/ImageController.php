@@ -90,6 +90,8 @@ class ImageController extends Controller
                 $ctype = "image/png";
                 break;
             case "jpeg":
+                $ctype = "image/jpeg";
+                break;
             case "jpg":
                 $ctype = "image/jpeg";
                 break;
@@ -162,6 +164,8 @@ class ImageController extends Controller
                 $ctype = "image/png";
                 break;
             case "jpeg":
+                $ctype = "image/jpeg";
+                break;
             case "jpg":
                 $ctype = "image/jpeg";
                 break;
