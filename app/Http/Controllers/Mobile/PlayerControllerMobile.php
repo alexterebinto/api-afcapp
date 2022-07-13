@@ -75,6 +75,8 @@ class PlayerControllerMobile extends Controller
         $dataRetorno['team_id'] =  $mysqlRegister->team->id;
         $dataRetorno['team'] =  $mysqlRegister->team->t_name;
         $dataRetorno['team_logo'] =  $mysqlRegister->team->t_emblem;
+        $dataRetorno['rg'] =  "***";
+        $dataRetorno['dataNascimento'] =  "***";
 
         $arrayEventos = array();
 
