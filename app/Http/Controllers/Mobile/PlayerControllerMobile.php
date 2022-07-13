@@ -79,8 +79,8 @@ class PlayerControllerMobile extends Controller
         $rg = str_replace(".", "", $mysqlRegister->rg);
 
 
-        $dataRetorno['rg'] =  $rg[0] . $rg[1] . $rg[2] . "*****";
-        $dataRetorno['dataNascimento'] =  "***";
+        $dataRetorno['rg'] =  $rg[0] . "." . $rg[1] . $rg[2] . "*****";
+        $dataRetorno['dataNascimento'] =  substr($dataRetorno['dataNascimento'], 0, 10);
 
         $arrayEventos = array();
 
