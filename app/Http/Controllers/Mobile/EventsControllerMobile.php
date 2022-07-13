@@ -84,7 +84,7 @@ class EventsControllerMobile extends Controller
         $i = 1;
         foreach ($filters as $key  => $val) {
 
-            $url =  $_ENV['APP_URL'] . "/api/v1/image?filename=" . $_ENV['SFTP_PATH_PHOTO_ATLETA'];
+            $url =  $_ENV['SFTP_PATH_PHOTO_ATLETA'];
             //$url = $_ENV['SFTP_PATH_PHOTO_ATLETA'];
 
 
