@@ -37,7 +37,9 @@ class BannerControllerMobile extends Controller
      */
     public function index()
     {
-        $data = $this->model->paginate();
+        // $data = $this->model->paginate();
+
+        $data = Banner::inRandomOrder()->limit(3)->get();
 
         return response()->json($data, 200);
     }
