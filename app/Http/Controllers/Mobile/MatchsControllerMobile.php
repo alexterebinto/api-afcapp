@@ -146,7 +146,6 @@ class MatchsControllerMobile extends Controller
             ->join('nx510_bl_match', 'nx510_bl_matchday.id', '=', 'nx510_bl_match.m_id')
             ->where('nx510_bl_matchday.s_id', '=', $id)
             ->where('nx510_bl_match.m_played', '=', '0')
-            ->whereRaw('nx510_bl_match.m_location is not null')
             ->orderByRaw('nx510_bl_match.m_date DESC ')
             ->paginate(30);
 
