@@ -82,6 +82,8 @@ class MatchController extends Controller
             $cobRes->m_id = $resposta['m_id'];
             $cobRes->m_date = $resposta['m_date'];
             $cobRes->m_time = $resposta['m_time'];
+            $cobRes->m_location = $resposta['m_location'];
+
 
             $dataT = Team::where('id', '=', $cobRes->team1_id)->first();
 
@@ -163,9 +165,9 @@ class MatchController extends Controller
 
         if (!$mysqlRegister) {
             return response()->json(['error' => 'Partida não encontrada!'], 200);
-        }        
+        }
 
-        //Request is valid, update 
+        //Request is valid, update
         $update = $mysqlRegister->update([
             'score1' => $request->score1,
             'score2' => $request->score2,
@@ -173,7 +175,8 @@ class MatchController extends Controller
             'is_extra' => $request->is_extra,
             'm_played' => $request->m_played,
             'm_date' => $request->m_date,
-            'm_time' => $request->m_time
+            'm_time' => $request->m_time,
+            'm_location' => $request->m_location
         ]);
 
 
@@ -206,6 +209,4 @@ class MatchController extends Controller
             'message' => 'Jogo excluido com sucesso'
         ], Response::HTTP_OK);
     }
-
-    
 }
