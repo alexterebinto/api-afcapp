@@ -285,7 +285,7 @@ class MatchEventController extends Controller
 
         return response()->json([
             'type' => 'success',
-            'message' => 'Eventos atualizados com sucesso',
+            'message' => 'Eventos / Campos atualizados com sucesso',
             'data' => $array,
         ], 200);
     }

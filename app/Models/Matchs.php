@@ -23,6 +23,7 @@ class Matchs extends Model
         'm_played',
         'm_date',
         'm_time',
+        'm_location'
     ];
 
     public function events()
@@ -34,7 +35,4 @@ class Matchs extends Model
     {
         return $this->hasOne(Matchday::class, 'id', 'm_id');
     }
-
-
-
 }
