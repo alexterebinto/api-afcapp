@@ -47,7 +47,7 @@ class MatchEventController extends Controller
         $dataForm = $request->all();
 
         $array = array();
-     
+
         // validate incoming request
 
         $validator = Validator::make($request->all(), [
@@ -63,29 +63,30 @@ class MatchEventController extends Controller
 
         $matchs = Matchs::find($dataForm['match_id']);
 
-            if (!$matchs) {
+        if (!$matchs) {
 
-                return response()->json([
-                    'type' => 'error',
-                    'message' => 'Partida invalida',
-                    'data' => $dataForm['match_id'],
-                ], 409);
-            }
+            return response()->json([
+                'type' => 'error',
+                'message' => 'Partida invalida',
+                'data' => $dataForm['match_id'],
+            ], 409);
+        }
 
-        //atualizar jogo   
+        //atualizar jogo
 
         if (!$matchs) {
             return response()->json(['error' => 'Partida não encontrada!'], 409);
-        }        
+        }
 
-        //Request is valid, update 
+        //Request is valid, update
         $update = $matchs->update([
             'score1' => $dataForm['score1'],
             'score2' => $dataForm['score2'],
             'm_played' => $dataForm['m_played'],
             'm_date' => $dataForm['m_date'],
-            'm_time' => $dataForm['m_time']
-            
+            'm_time' => $dataForm['m_time'],
+            'm_location' => $dataForm['m_location']
+
         ]);
 
         foreach ($dataForm['events'] as $resposta) {
@@ -96,7 +97,7 @@ class MatchEventController extends Controller
             $cobRes->match_id = $dataForm['match_id'];
             $cobRes->ecount = $resposta['ecount'];
             $cobRes->minutes = $resposta['minutes'];
-            $cobRes->t_id = $resposta['t_id'];          
+            $cobRes->t_id = $resposta['t_id'];
 
             $dataT = Team::where('id', '=', $cobRes->t_id)->first();
 
@@ -131,7 +132,7 @@ class MatchEventController extends Controller
                 ], 409);
             }
 
-            
+
             array_push($array, $cobRes);
         }
 
@@ -183,7 +184,7 @@ class MatchEventController extends Controller
         $dataForm = $request->all();
 
         $array = array();
-     
+
         // validate incoming request
 
         $validator = Validator::make($request->all(), [
@@ -199,33 +200,34 @@ class MatchEventController extends Controller
 
         $matchs = Matchs::find($dataForm['match_id']);
 
-            if (!$matchs) {
+        if (!$matchs) {
 
-                return response()->json([
-                    'type' => 'error',
-                    'message' => 'Partida invalida',
-                    'data' => $dataForm['match_id'],
-                ], 409);
-            }
+            return response()->json([
+                'type' => 'error',
+                'message' => 'Partida invalida',
+                'data' => $dataForm['match_id'],
+            ], 409);
+        }
 
-        //atualizar jogo   
+        //atualizar jogo
 
         if (!$matchs) {
             return response()->json(['error' => 'Partida não encontrada!'], 409);
-        }        
+        }
 
-        //Request is valid, update 
+        //Request is valid, update
         $update = $matchs->update([
             'score1' => $dataForm['score1'],
             'score2' => $dataForm['score2'],
             'm_played' => $dataForm['m_played'],
             'm_date' => $dataForm['m_date'],
-            'm_time' => $dataForm['m_time']
+            'm_time' => $dataForm['m_time'],
+            'm_location' => $dataForm['m_location']
         ]);
 
 
-           //limpar eventos
-           $res = MatchEvent::where('match_id', '=', $id)->delete();
+        //limpar eventos
+        $res = MatchEvent::where('match_id', '=', $id)->delete();
 
         foreach ($dataForm['events'] as $resposta) {
 
@@ -271,7 +273,7 @@ class MatchEventController extends Controller
                 ], 409);
             }
 
-            
+
             array_push($array, $cobRes);
         }
 
@@ -280,14 +282,11 @@ class MatchEventController extends Controller
             $st->save();
         }
 
-       
+
         return response()->json([
             'type' => 'success',
             'message' => 'Eventos atualizados com sucesso',
             'data' => $array,
         ], 200);
-     
-
-        
     }
 }
