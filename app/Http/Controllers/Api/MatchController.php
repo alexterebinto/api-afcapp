@@ -82,7 +82,11 @@ class MatchController extends Controller
             $cobRes->m_id = $resposta['m_id'];
             $cobRes->m_date = $resposta['m_date'];
             $cobRes->m_time = $resposta['m_time'];
-            $cobRes->m_location = $resposta['m_location'];
+
+            $cobRes->m_location = $resposta['m_location'] ?? "A definir";
+
+
+            // $cobRes->m_location = $resposta['m_location'];
 
 
             $dataT = Team::where('id', '=', $cobRes->team1_id)->first();
