@@ -70,8 +70,11 @@ class PdfSumulaCampoController extends Controller
             ->where('nx510_bl_matchday.s_id', '=', $matchday->s_id)
             ->where('nx510_bl_match.m_played', '=', '1')
             ->where('nx510_bl_match_events.e_id', '<', '3')
+            ->where('nx510_bl_match.m_date', '>=', $season->updated_at)
             ->orderByRaw('nx510_bl_matchday.id ASC')
             ->get();
+
+
 
 
         //icones
